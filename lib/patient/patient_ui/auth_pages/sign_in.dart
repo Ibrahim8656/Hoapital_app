@@ -2,6 +2,7 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hosptial_project/patient/patient_ui/auth_pages/register1.dart';
 import 'package:hosptial_project/patient/patient_ui/auth_pages/register2.dart';
 import 'package:hosptial_project/patient/patient_ui/auth_pages/sign_in.dart';
 
@@ -139,7 +140,7 @@ class _SignIn extends State<SignIn> {
                                       controller: UsernameController,
                                       prefexicon: Icons.person,
                                       labletext: 'username '),
-                                  SizedBox(height: 20),
+                                  SizedBox(height: 30),
                                   defolttextformfild(
                                       validate: (String? value) {
                                         if (value!.isEmpty) {
@@ -177,8 +178,31 @@ class _SignIn extends State<SignIn> {
                                             };
 
                                           },
-                                          text: 'Next'),
-                                      fallback: (context) => CircularProgressIndicator())
+                                          text: 'Login'),
+                                      fallback: (context) => CircularProgressIndicator()),
+                                  SizedBox(height: 30,),
+                                  Row(children: [
+                                    Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        InkWell(onTap: (){
+
+                                        },
+                                          child: Text("Forget Password ?",style: TextStyle(
+                                              color: defualtcolelr,fontSize: 16
+                                          ),),
+                                        ),          SizedBox(height: 10,),
+                                        InkWell(onTap: (){
+                                          navigator(Register(), context);
+                                        },
+                                          child: Text("Create New Account.////////////////////////fac/goo",style: TextStyle(
+                                              color: defualtcolelr,fontSize: 16
+                                          ),),
+                                        )
+                                      ],
+                                    ),
+                                  ],),
+
                                 ],
                               ),
                             ),

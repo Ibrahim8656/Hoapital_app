@@ -9,6 +9,8 @@ import 'package:hosptial_project/patient/patient_ui/auth_pages/forget_password.d
 import 'package:hosptial_project/patient/patient_ui/auth_pages/register1.dart';
 import 'package:hosptial_project/patient/patient_ui/auth_pages/register2.dart';
 import 'package:hosptial_project/patient/patient_ui/auth_pages/sign_in.dart';
+import 'package:hosptial_project/patient/patient_ui/home/doctor_catigories.dart';
+import 'package:hosptial_project/patient/patient_ui/home/find_doctor.dart';
 import 'package:hosptial_project/patient/patient_ui/home/homescreen.dart';
 import 'package:hosptial_project/patient/patient_ui/profile/Myprofile.dart';
 import 'package:hosptial_project/sheared/components/comopnents.dart';
@@ -32,10 +34,11 @@ class MyApp extends StatelessWidget {
           selectedItemColor: Colors.white
         ),
         appBarTheme: AppBarTheme(
+          titleTextStyle: TextStyle(color: Colors.white,fontSize: 20,fontWeight: FontWeight.bold),
           color: HexColor('3D85C6')
         )
       ),
-      home: SignIn(),
+      home: Find_doctor(),
     );
   }
 }

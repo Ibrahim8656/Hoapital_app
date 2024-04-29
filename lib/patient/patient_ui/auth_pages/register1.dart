@@ -106,7 +106,7 @@ class _RegisterState extends State<Register> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
-                                    "Get Started",
+                                    "Register New User ",
                                     style: TextStyle(
                                         fontSize: 23.0,
                                         color: Colors.black87,
