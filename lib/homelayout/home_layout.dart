@@ -30,12 +30,12 @@ class Homelayout extends StatelessWidget {
             bottomNavigationBar: BottomNavigationBar(
             type: BottomNavigationBarType.fixed,
             currentIndex: cubit.currentIndex,
+            unselectedItemColor: Colors.black,
             onTap: (index) {
               cubit.ontap(index);
             },
             items: cubit.bottomNavigationbar,
           ),
-
           );
         },
       ),

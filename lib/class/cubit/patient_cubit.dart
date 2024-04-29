@@ -48,13 +48,9 @@ import 'package:hosptial_project/sheared/constant/constant.dart';
     void onPageChanged(int pageIndex, int selectedIconIndex) {
       emit(PageChangedState(pageIndex, selectedIconIndex));
     }
-
-
-
     Regoster1({
       required String password,
       required String email,
-
       required String UserName,
       required String password_confirmation,
     }) async {
@@ -65,7 +61,6 @@ import 'package:hosptial_project/sheared/constant/constant.dart';
           "email":email,
           "password2":password_confirmation,
           "password": password,
-
         };
         Response response= await Dio().post('https://fodail2011.pythonanywhere.com/auth-api/register/step1/',
           data:userData,

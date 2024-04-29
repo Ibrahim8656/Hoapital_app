@@ -250,11 +250,11 @@ Widget defolttextformfild({
         keyboardType: typekey,
         controller: controller,
         decoration: InputDecoration(
-
+          contentPadding: const EdgeInsets.symmetric(vertical: 17.0, horizontal: 10.0),
           labelText: labletext,
           border: OutlineInputBorder(),
           enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.grey, width: 1.5),
+              borderSide: BorderSide(color: Colors.grey.shade300, width: 1.5),
 
             borderRadius: BorderRadius.circular(30),
           ),
@@ -272,7 +272,7 @@ Widget defolttextformfild({
             ),
             borderRadius: BorderRadius.circular(30.0),
           ),
-          prefixIcon: Icon(prefexicon,color: Colors.black,),
+          prefixIcon: Icon(prefexicon,color: Colors.black26,),
           filled: true,
           fillColor: const Color(0xFFF1F4F8),
           suffixIcon: suffix!=null ?IconButton(onPressed: suffixpressd,
