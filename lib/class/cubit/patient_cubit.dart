@@ -12,6 +12,7 @@ import 'package:hosptial_project/sheared/constant/constant.dart';
   import '../../patient/patient_ui/home/homescreen.dart';
   import '../../patient/patient_ui/medicalscreen/medicalscreen.dart';
   import '../../patient/patient_ui/profile/Myprofile.dart';
+import 'models/Login_respone.dart';
 
   class CubitPatientHosptial extends Cubit< PatientStates>
   {
@@ -48,6 +49,7 @@ import 'package:hosptial_project/sheared/constant/constant.dart';
     void onPageChanged(int pageIndex, int selectedIconIndex) {
       emit(PageChangedState(pageIndex, selectedIconIndex));
     }
+
     Regoster1({
       required String password,
       required String email,
@@ -78,6 +80,28 @@ import 'package:hosptial_project/sheared/constant/constant.dart';
       }
     }
 
+    PatientLogin({
+      required String password,
+      required String username,
+    }) async {
+      try {
+        emit(PatientSignUPLoading());
+        Map<String, dynamic> userData ={
+          //"email":email,
+          "username":username,
+          "password": password,
+        };
+        Response response= await Dio().post('https://fodail2011.pythonanywhere.com/auth-api/login/',
+          data:userData,
+        );
+        final  LoginResponse loginresponse = LoginResponse.fromJson(response.data);
+        print(response);
+        emit(Login1Succss(data: loginresponse.data));
+      } on DioException catch (e) {
+        print(e.error.toString());
+        emit(PatientLoginFailure(errorMassage: e.toString()));
+      }
+    }
     Regoster2({
       required int age,
       required String firstName,

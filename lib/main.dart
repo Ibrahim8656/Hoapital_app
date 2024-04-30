@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
           color: HexColor('3D85C6')
         )
       ),
-      home: Find_doctor(),
+      home: SignIn(),
     );
   }
 }

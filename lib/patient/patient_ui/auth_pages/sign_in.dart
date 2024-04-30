@@ -8,6 +8,7 @@ import 'package:hosptial_project/patient/patient_ui/auth_pages/sign_in.dart';
 
 import '../../../class/cubit/patient_cubit.dart';
 import '../../../class/cubit/patient_states.dart';
+import '../../../homelayout/home_layout.dart';
 import '../../../sheared/components/comopnents.dart';
 
 class SignIn extends StatefulWidget {
@@ -36,17 +37,17 @@ class _SignIn extends State<SignIn> {
       create: (BuildContext context) => CubitPatientHosptial(),
       child: BlocConsumer<CubitPatientHosptial, PatientStates>(
         listener: (BuildContext context, Object? state) {
-          if (state is Register1Succss) {
+          if (state is Login1Succss) {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               content: Text('data possing'),
               duration: Duration(seconds: 2),
               backgroundColor: Colors.green.shade300,
             ));
             Navigator.push(
-                context, MaterialPageRoute(builder: (context) => Register2()));
+                context, MaterialPageRoute(builder: (context) => Homelayout()));
           } else if (state is PatientSignUPFailure) {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content: Text('${state.errorMassage}'),
+              content: Text('${state.errorMassage}'),//////////////////
 
               duration: Duration(seconds: 1),
               backgroundColor: Colors.red.shade300,
@@ -166,11 +167,9 @@ class _SignIn extends State<SignIn> {
                                       builder: (context) => Defultbotom(
                                           onPressed: () {
                                             if (formky.currentState!.validate()){
-                                              CubitPatientHosptial.get(context).Regoster1(
-                                                UserName: UsernameController.text,
+                                              CubitPatientHosptial.get(context).PatientLogin(
                                                 password: passwordController.text,
-                                                email: emailController.text,
-                                                password_confirmation:password_confirmationController.text ,
+                                                username: UsernameController.text,
                                               );
                                             }
                                             else{
