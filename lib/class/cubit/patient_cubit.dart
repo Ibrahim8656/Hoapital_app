@@ -99,7 +99,6 @@ import 'package:hosptial_project/sheared/constant/constant.dart';
           'address': address,
           'blood': blood,
         };
-
         var dio = Dio(); // Create Dio instance
         dio.options.headers["Authorization"] = "Bearer ${Constants.access}";
         print('###################${ dio.options.headers["Authorization"] }');
