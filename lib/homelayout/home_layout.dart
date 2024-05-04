@@ -4,10 +4,8 @@ import 'package:hexcolor/hexcolor.dart';
 import '../class/cubit/patient_cubit.dart';  // Ensure the path here is correct
 import '../class/cubit/patient_states.dart';
 import '../sheared/components/comopnents.dart';
-
 class Homelayout extends StatelessWidget {
   const Homelayout({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -23,14 +21,13 @@ class Homelayout extends StatelessWidget {
         },
         builder: (BuildContext context, state) {
           var cubit = CubitPatientHosptial.get(context);  // Using the static get method
-
           return Scaffold(
             body:cubit.Screens[cubit.currentIndex
             ],
             bottomNavigationBar: BottomNavigationBar(
             type: BottomNavigationBarType.fixed,
             currentIndex: cubit.currentIndex,
-            unselectedItemColor: Colors.black,
+            unselectedItemColor: Colors.white60,
             onTap: (index) {
               cubit.ontap(index);
             },

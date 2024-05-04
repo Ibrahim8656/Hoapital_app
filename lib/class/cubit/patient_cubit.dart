@@ -49,7 +49,31 @@ import 'models/Login_respone.dart';
     void onPageChanged(int pageIndex, int selectedIconIndex) {
       emit(PageChangedState(pageIndex, selectedIconIndex));
     }
-
+    Map<String, dynamic> loginPatientlist = {};
+    PatientLogin({
+      required String password,
+      required String username,
+    }) async {
+      try {
+        emit(PatientSignUPLoading());
+        Map<String, dynamic> userData ={
+          //"email":email,
+          "username":username,
+          "password": password,
+        };
+        Response response= await Dio().post('https://fodail2011.pythonanywhere.com/auth-api/login/',
+          data:userData,
+        );
+        final  LoginResponse loginresponse = LoginResponse.fromJson(response.data);
+        loginPatientlist =response.data;
+        Constants.userId=response.data['patient_id'];
+        print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%${response.data}');
+        emit(Login1Succss(data:response.data));
+      } on DioException catch (e) {
+        print(e.error.toString());
+        emit(PatientLoginFailure(errorMassage: e.toString()));
+      }
+    }
     Regoster1({
       required String password,
       required String email,
@@ -79,29 +103,6 @@ import 'models/Login_respone.dart';
         emit(PatientSignUPFailure(errorMassage: e.toString()));
       }
     }
-
-    PatientLogin({
-      required String password,
-      required String username,
-    }) async {
-      try {
-        emit(PatientSignUPLoading());
-        Map<String, dynamic> userData ={
-          //"email":email,
-          "username":username,
-          "password": password,
-        };
-        Response response= await Dio().post('https://fodail2011.pythonanywhere.com/auth-api/login/',
-          data:userData,
-        );
-        final  LoginResponse loginresponse = LoginResponse.fromJson(response.data);
-        print(response);
-        emit(Login1Succss(data: loginresponse.data));
-      } on DioException catch (e) {
-        print(e.error.toString());
-        emit(PatientLoginFailure(errorMassage: e.toString()));
-      }
-    }
     Regoster2({
       required int age,
       required String firstName,
@@ -110,6 +111,7 @@ import 'models/Login_respone.dart';
       required String phone,
       required String address,
       required String blood,
+
     }) async {
       try {
         emit(PatientSignUPLoading());
@@ -122,6 +124,7 @@ import 'models/Login_respone.dart';
           'phone_number': phone,
           'address': address,
           'blood': blood,
+
         };
         var dio = Dio(); // Create Dio instance
         dio.options.headers["Authorization"] = "Bearer ${Constants.access}";
@@ -143,6 +146,46 @@ import 'models/Login_respone.dart';
       isPassword = !isPassword;
       suffix = isPassword ? Icons.visibility_off_outlined : Icons.visibility_outlined;
       emit(Caangeiconpassword());
+    }
+    Map<String, dynamic>patient = {};
+    void gitpatientdata() {
+      Diohelper.getdata(url:
+      'https://fodail2011.pythonanywhere.com/api/patient/${Constants.userId}',
+       ).then((value) {
+        patient = value.data;
+        print('@@@@@@@@@@@@@@@@@@@@@@4${patient['id']}');
+        emit(GitPaptientdatastate());
+      }).catchError((error) {
+        print(error.toString());
+      });
+    }
+
+
+   List<dynamic> doctrolist = [];
+    void gitdoctorsdata() {
+      Diohelper.getdata(url: 'https://fodail2011.pythonanywhere.com/api/doctors/',
+      ).then((value) {
+        doctrolist = value.data;
+        print('###################################${doctrolist}');
+        emit(GitDoctrodatastate());
+      }).catchError((error) {
+        print(error.toString());
+      });
+    }
+
+    Map<String,dynamic> Onedoctrolist = {};
+    void git1doctordata(int spcificdos) {
+      Diohelper.getdata(url: 'https://fodail2011.pythonanywhere.com/api/doctor/$spcificdos',
+      ).then((value) {
+        Onedoctrolist = value.data;
+        print('###################################${value.data}');
+        emit(Git1Doctrodatatate());
+      }).catchError((error) {
+        print(error.toString());
+      });
+    }
+    void handleClick(String value) {
+      print("Selected:$value");
     }
 
   }////

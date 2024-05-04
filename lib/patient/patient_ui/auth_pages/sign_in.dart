@@ -5,6 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hosptial_project/patient/patient_ui/auth_pages/register1.dart';
 import 'package:hosptial_project/patient/patient_ui/auth_pages/register2.dart';
 import 'package:hosptial_project/patient/patient_ui/auth_pages/sign_in.dart';
+import 'package:hosptial_project/sheared/constant/constant.dart';
+import 'package:hosptial_project/sheared/shearedpref/shearedprefrances.dart';
 
 import '../../../class/cubit/patient_cubit.dart';
 import '../../../class/cubit/patient_states.dart';
@@ -40,16 +42,15 @@ class _SignIn extends State<SignIn> {
           if (state is Login1Succss) {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               content: Text('data possing'),
-              duration: Duration(seconds: 2),
+              duration: Duration(seconds: 1),
               backgroundColor: Colors.green.shade300,
             ));
             Navigator.push(
                 context, MaterialPageRoute(builder: (context) => Homelayout()));
-          } else if (state is PatientSignUPFailure) {
+          } else if (state is PatientLoginFailure) {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content: Text('${state.errorMassage}'),//////////////////
-
-              duration: Duration(seconds: 1),
+              content: Text('Please check the entered data'),//////////////////
+              duration: Duration(seconds: 2),
               backgroundColor: Colors.red.shade300,
             ));
             return null;

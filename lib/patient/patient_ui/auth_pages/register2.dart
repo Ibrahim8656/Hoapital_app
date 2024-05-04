@@ -7,14 +7,11 @@ import 'package:hosptial_project/patient/patient_ui/auth_pages/sign_in.dart';
 import '../../../class/cubit/patient_cubit.dart';
 import '../../../class/cubit/patient_states.dart';
 import '../../../sheared/components/comopnents.dart';
-
 class Register2 extends StatefulWidget {
   const Register2({super.key});
-
   @override
   State<Register2> createState() => _RegisterState();
 }
-
 class _RegisterState extends State<Register2> {
   bool obscureText = true;
   bool obscureText1 = true;

@@ -3,6 +3,7 @@ import 'package:hosptial_project/patient/patient_ui/auth_pages/sign_in.dart';
 import 'package:hosptial_project/patient/patient_ui/smooth-page/page1.dart';
 import 'package:hosptial_project/patient/patient_ui/smooth-page/page2.dart';
 import 'package:hosptial_project/patient/patient_ui/smooth-page/page3.dart';
+import 'package:hosptial_project/sheared/shearedpref/shearedprefrances.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 
@@ -78,7 +79,15 @@ class _SmoothPageState extends State<SmoothPage> {
                   child:  Container(
                     child: OutlinedButton(
                       onPressed: (){
-                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>SignIn()));
+                       CacheHelper.saveData(key: 'onbording', value: true).then((value) {
+                         if (value) {
+                           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => SignIn()));
+                         } else {
+                           // Handle error if saving data failed
+                           print('Failed to save onboarding state.');
+                         }
+
+                       });
                       },
                       style: ElevatedButton.styleFrom(shape: const StadiumBorder(),backgroundColor: Colors.blueGrey),
                       child: const Text(" done",

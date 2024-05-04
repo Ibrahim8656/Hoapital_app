@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:hosptial_project/patient/patient_ui/resrvation/SelectTime.dart';
 
 import '../../class/cubit/patient_cubit.dart';
+import '../constant/constant.dart';
 //you need to do reasable component of 4 icons
 Color defualtcolelr=HexColor('3D85C6');
 Widget defultbotom(
@@ -30,16 +32,7 @@ Widget defultbotom(
       ),
     );
 
-Widget DoctorItem({
-  required String image,
-  required String name,
-  required String specialty,
-  required int experience,
-  required percentage,
-  required int Patient_Stories,
-  required String Next_avilable,
-
-})=> Padding(
+Widget DoctorItem(doctordata,context,index)=> Padding(
   padding: const EdgeInsets.all(5.0),
   child: Container(
     width: double.infinity,
@@ -64,7 +57,7 @@ Widget DoctorItem({
             Column(
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(left: 20.0,top: 20,right: 10,bottom: 15),
+                  padding: const EdgeInsets.only(left: 20.0,top: 20,right: 20,bottom: 15),
                   child: Container(
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10)
@@ -74,7 +67,7 @@ Widget DoctorItem({
                       width: 100,
                       child: Image(
                         image: NetworkImage(
-                            image
+                            'https://t3.ftcdn.net/jpg/02/60/04/08/360_F_260040863_fYxB1SnrzgJ9AOkcT0hoe7IEFtsPiHAD.jpg'
                         ),fit:BoxFit.cover,
                       )),
                 ),
@@ -83,18 +76,45 @@ Widget DoctorItem({
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(name,style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20,
+                Row(
+                  children: [
+                    Container(
+                      width: 150,
+                      child: Text('${doctordata['firstname']}',maxLines: 1,
+                         overflow:TextOverflow.ellipsis ,
+                        style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                      ),
+                      ),
+                    ),
+                    Container(
+                      child: PopupMenuButton<String>(
+                        color: Colors.grey,
+                        onSelected: handleClick,
+                        itemBuilder: (BuildContext context) {
+                          return [
+                            PopupMenuItem<String>(
+                              height: 25,
+                              value: 'OnlyChoice',
+                              child: InkWell(onTap: (){
+                                ///////////////////////////doctorprofile
+                              },
+                                  child: Text('Profile')),
+                            ),
+                          ];
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+                Text(
+                  '${doctordata['specialty_name']}',style: TextStyle(
+                    color:Colors.grey[600],fontSize: 16
                 ),
                 ),
                 Text(
-                  specialty,style: TextStyle(
-                    color:Colors.grey[600]
-                ),
-                ),
-                Text(
-                  '$experience years experience',
+                  '$index',
                   style: TextStyle(
                       color:Colors.grey[600]
                   ),
@@ -106,7 +126,7 @@ Widget DoctorItem({
                       backgroundColor: defualtcolelr,radius: 5,
                     ),
                     SizedBox(width:5),
-                    Text('$percentage%',style: TextStyle(
+                    Text('80',style: TextStyle(
                         color: Colors.grey[600],
                         fontSize: 12
                     ),),
@@ -115,10 +135,10 @@ Widget DoctorItem({
                       backgroundColor: defualtcolelr,radius: 5,
                     ),
                     SizedBox(width:5),
-                    Text('$Patient_Stories Patient Stories',style: TextStyle(
+                    Text('20 Patient Stories',style: TextStyle(
                         color: Colors.grey[600],
                         fontSize: 12
-                    ),)
+                    ),),
                   ],
                 ),
               ],
@@ -138,7 +158,7 @@ Widget DoctorItem({
                   ),),
                   Padding(
                     padding: const EdgeInsets.only(bottom: 20.0),
-                    child: Text(Next_avilable),
+                    child: Text('nextavilable'),
                   ),
                 ],
               ),
@@ -149,7 +169,10 @@ Widget DoctorItem({
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Defultbotom(onPressed: (){},
+                    Defultbotom(onPressed: (){
+
+                      navigator(SelectTime(spcificdos:doctordata['id'],), context);
+                    },
                         width: 120,
                         height: 40,
                         text: 'Bock Now',
@@ -161,6 +184,65 @@ Widget DoctorItem({
           ],
         ),
       ],
+    ),
+  ),
+);
+Widget HomeDocItem(doctordata)=>Container(
+  margin: EdgeInsets.symmetric(horizontal: 5.0),
+  decoration: BoxDecoration(
+
+  ),
+  child:GestureDetector(
+    onTap: (){
+      ////////doctor profile//////////////////////////////////////
+    },
+    child: Padding(
+      padding: const EdgeInsets.all(15.0),
+      child: Container(
+        width: 150, // Set an appropriate width for the items
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(30), // Adjust radius to match your design
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.5),
+              spreadRadius: 5,
+              blurRadius: 7,
+              offset: Offset(0, 3), // changes position of shadow
+            ),
+          ],
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(20),
+          child: Stack(
+            children: [
+              Image(
+                image: NetworkImage(
+                    'https://t3.ftcdn.net/jpg/02/60/04/08/360_F_260040863_fYxB1SnrzgJ9AOkcT0hoe7IEFtsPiHAD.jpg'
+                ),fit:BoxFit.cover,height: 200,
+              ),
+              Positioned(
+                bottom: 0,
+                right: 0,
+                left: 0,
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  color: Colors.black45, // Semi-transparent black background
+                  child: Center(
+                    child: Text(
+                      'Dr.${doctordata['firstname']}', // اسم الدكتور
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     ),
   ),
 );
@@ -289,34 +371,33 @@ void navigator(Widget screen,context){
 }
 
 Widget patientprofileitem({
-  required String textup,
-  required String textdown,
+  required String textup, required String textdown,
 
 })=>  Padding(
-  padding: const EdgeInsets.symmetric(vertical: 10.0,horizontal: 25),
+  padding: const EdgeInsets.symmetric(horizontal: 25),
   child: Container(
     decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
-        color:HexColor('6fa8dc')
+
     ),
     child: Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 15.0,vertical: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 15.0,vertical: 0),
       child: Column(
         children: [
           Row(children: [
             Text(textup,style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
-              color: Colors.black87,
+              color: HexColor('020912'),
               fontFamily: 'Rubik',
             ),)
           ],),
-          SizedBox(height: 0,),
+          SizedBox(height: 5,),
           Row(children: [
             Text(textdown,style: TextStyle(
 
                 fontSize: 15,
-                color: Colors.white,fontFamily: 'Rubik',
+                color: Colors.grey,fontFamily: 'Rubik',
             ),)
           ],),
         ],
@@ -348,6 +429,10 @@ Widget Defultbotom(/////////////////////////////////////////////////////////////
         ),
       ),
     );
+void handleClick(String value) {
+  print("Selected: $value");
+}
+
 
 
 

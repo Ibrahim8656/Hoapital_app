@@ -29,7 +29,7 @@ class MedicaScreen extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => MydoctorScreen()),
+                              builder: (context) => MyDoctorScreen()),
                         );
                       },
                       child: Container(
@@ -51,7 +51,7 @@ class MedicaScreen extends StatelessWidget {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => MydoctorScreen()),
+                                        builder: (context) => MyDoctorScreen()),
                                   );
                                 },
                                 icon: Icon(

@@ -12,15 +12,21 @@ import 'package:hosptial_project/patient/patient_ui/auth_pages/sign_in.dart';
 import 'package:hosptial_project/patient/patient_ui/home/doctor_catigories.dart';
 import 'package:hosptial_project/patient/patient_ui/home/find_doctor.dart';
 import 'package:hosptial_project/patient/patient_ui/home/homescreen.dart';
+import 'package:hosptial_project/patient/patient_ui/medicalscreen/MydoctorScreen.dart';
 import 'package:hosptial_project/patient/patient_ui/profile/Myprofile.dart';
 import 'package:hosptial_project/sheared/components/comopnents.dart';
 import 'package:hosptial_project/sheared/components/styele.dart';
+import 'package:hosptial_project/sheared/shearedpref/shearedprefrances.dart';
 import 'package:hosptial_project/test.dart';
 import 'class/helper_dio.dart';
-void main() {
+Future<void> main() async {
   Bloc.observer = MyBlocObserver();
+  WidgetsFlutterBinding.ensureInitialized();
+  await CacheHelper.init();
+  bool? onboardingComplete = CacheHelper.getData(key: 'onboardingCompletee') as bool?;
   Diohelper.init();
   runApp(const MyApp());
+
 }
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
