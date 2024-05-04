@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:hosptial_project/class/bloc_observer.dart';
 import 'package:hosptial_project/class/cubit/diohelper.dart';
@@ -22,6 +23,7 @@ import 'class/helper_dio.dart';
 Future<void> main() async {
   Bloc.observer = MyBlocObserver();
   WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load(fileName: ".env");
   await CacheHelper.init();
   bool? onboardingComplete = CacheHelper.getData(key: 'onboardingCompletee') as bool?;
   Diohelper.init();

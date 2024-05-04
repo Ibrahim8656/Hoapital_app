@@ -80,8 +80,8 @@ class SelectTime extends StatelessWidget {
                                 ),
                                 ),
                                 Text(
-                                  '${doctor['specialty']}',style: TextStyle(
-                                    color:Colors.white
+                                  '${doctor['specialty_name']}',style: TextStyle(
+                                    color:Colors.white,fontSize: 15
                                 ),
                                 ),
                               ],

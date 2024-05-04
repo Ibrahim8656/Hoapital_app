@@ -57,7 +57,7 @@ Widget DoctorItem(doctordata,context,index)=> Padding(
             Column(
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(left: 20.0,top: 20,right: 20,bottom: 15),
+                  padding: const EdgeInsets.only(left:20.0,top:20,right:20,bottom:15),
                   child: Container(
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10)
@@ -246,6 +246,47 @@ Widget HomeDocItem(doctordata)=>Container(
     ),
   ),
 );
+
+Widget DepartmentsItem(department)=> Column(
+  children: [
+    Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Container(
+        width: 150, // Set an appropriate width for the items
+        height: 120, // Set an appropriate height for the image container
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(30), // Adjust radius to match your design
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.5),
+              spreadRadius: .5,
+              blurRadius: 5,
+              offset: Offset(0,6), // changes position of shadow
+            ),
+          ],
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(20),
+          child: Image.network(
+            '${department['photo']}', // Replace with your asset path
+            fit: BoxFit.cover,width: double.infinity,
+          ),
+        ),
+      ),
+    ),
+    SizedBox(height: 10), // Space between the image container and the text
+    Text(
+      '${department['title']}', // Your text
+      style: TextStyle(
+        fontWeight: FontWeight.bold,
+      ),
+      textAlign: TextAlign.center,
+    ),
+  ],
+);
+
+
+
 
 Widget RecordItem({
   required int day,

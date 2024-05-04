@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hosptial_project/patient/patient_ui/home/find_doctor.dart';
 import 'package:hosptial_project/patient/patient_ui/medicalscreen/MydoctorScreen.dart';
-
 import '../../../class/cubit/patient_cubit.dart';
 import '../../../class/cubit/patient_states.dart';
 import '../../../sheared/components/comopnents.dart';
@@ -16,10 +15,11 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (BuildContext context) => CubitPatientHosptial()..gitdoctorsdata(),
+      create: (BuildContext context) => CubitPatientHosptial()..gitdoctorsdata()..GetDepatments(),
       child: BlocConsumer<CubitPatientHosptial, PatientStates>(
         listener: (BuildContext context, Object? state) {},
         builder: (BuildContext context, state) {
+          var departments=CubitPatientHosptial.get(context).departmentslist;
           var list = CubitPatientHosptial.get(context).doctrolist;
           return Scaffold(
             body: Container(
@@ -145,7 +145,7 @@ class Home extends StatelessWidget {
                                       children: [
                                         Image(
                                           image: NetworkImage(
-                                              'https://t3.ftcdn.net/jpg/02/60/04/08/360_F_260040863_fYxB1SnrzgJ9AOkcT0hoe7IEFtsPiHAD.jpg'
+                                              '${i['photo']}'
                                           ),fit:BoxFit.cover,height: 200,
                                         ),
                                         Positioned(
@@ -207,50 +207,10 @@ class Home extends StatelessWidget {
                       child: ListView.separated(
                         padding: EdgeInsets.symmetric(horizontal: 15),
                         scrollDirection: Axis.horizontal,
-                        itemCount: 10, // Replace with your actual number of items
+                        itemCount: departments.length, // Replace with your actual number of items
                         separatorBuilder: (context, index) => SizedBox(width: 12), // Spacing between items
                         itemBuilder: (context, index) {
-                          return Column(
-                            children: [
-                              InkWell(onTap: (){
-                                navigator(FindDoctor(), context);
-                              },
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Container(
-                                    width: 150, // Set an appropriate width for the items
-                                    height: 120, // Set an appropriate height for the image container
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(30), // Adjust radius to match your design
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.grey.withOpacity(0.5),
-                                          spreadRadius: .5,
-                                          blurRadius: 5,
-                                          offset: Offset(0,6), // changes position of shadow
-                                        ),
-                                      ],
-                                    ),
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(20),
-                                      child: Image.asset(
-                                        'asset/images/dent.jpg', // Replace with your asset path
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              SizedBox(height: 10), // Space between the image container and the text
-                              Text(
-                                'Dentistry', // Your text
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                                textAlign: TextAlign.center,
-                              ),
-                            ],
-                          );
+                          return DepartmentsItem(departments[index]);
                         },
                       ),
                     ),
