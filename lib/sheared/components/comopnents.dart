@@ -4,6 +4,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:hosptial_project/patient/patient_ui/resrvation/SelectTime.dart';
 
 import '../../class/cubit/patient_cubit.dart';
+import '../../patient/patient_ui/home/find_doctor.dart';
 import '../constant/constant.dart';
 //you need to do reasable component of 4 icons
 Color defualtcolelr=HexColor('3D85C6');
@@ -65,12 +66,12 @@ Widget DoctorItem(doctordata,context,index)=> Padding(
                       clipBehavior: Clip.antiAliasWithSaveLayer,
                       height: 100,
                       width: 100,
-                      child: Image(
-                        image: NetworkImage(
-                            'https://t3.ftcdn.net/jpg/02/60/04/08/360_F_260040863_fYxB1SnrzgJ9AOkcT0hoe7IEFtsPiHAD.jpg'
-                        ),fit:BoxFit.cover,
+                      child:
+                         Image.network(
+                            '${doctordata['photo']}'
+                           ,fit:BoxFit.cover, ),
                       )),
-                ),
+
               ],
             ),
             Column(
@@ -247,29 +248,34 @@ Widget HomeDocItem(doctordata)=>Container(
   ),
 );
 
-Widget DepartmentsItem(department)=> Column(
+Widget DepartmentsItem(department,context)=> Column(
   children: [
     Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Container(
-        width: 150, // Set an appropriate width for the items
-        height: 120, // Set an appropriate height for the image container
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(30), // Adjust radius to match your design
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.5),
-              spreadRadius: .5,
-              blurRadius: 5,
-              offset: Offset(0,6), // changes position of shadow
+      child: InkWell(
+        onTap: (){
+          navigator(FindDoctor(SpDepid: department['id'], Depart:department['id'] ), context);
+        },
+        child: Container(
+          width: 150, // Set an appropriate width for the items
+          height: 120, // Set an appropriate height for the image container
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(30), // Adjust radius to match your design
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.5),
+                spreadRadius: 6,
+                blurRadius: 4,
+                offset: Offset(3,6), // changes position of shadow
+              ),
+            ],
+          ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(20),
+            child: Image.network(
+              '${department['photo']}', // Replace with your asset path
+              fit: BoxFit.cover,width: double.infinity,
             ),
-          ],
-        ),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(20),
-          child: Image.network(
-            '${department['photo']}', // Replace with your asset path
-            fit: BoxFit.cover,width: double.infinity,
           ),
         ),
       ),
@@ -278,7 +284,7 @@ Widget DepartmentsItem(department)=> Column(
     Text(
       '${department['title']}', // Your text
       style: TextStyle(
-        fontWeight: FontWeight.bold,
+        fontWeight: FontWeight.bold,fontSize: 17
       ),
       textAlign: TextAlign.center,
     ),

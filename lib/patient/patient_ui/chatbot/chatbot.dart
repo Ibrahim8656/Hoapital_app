@@ -11,10 +11,10 @@ class Chatbot extends StatefulWidget {
   const Chatbot({super.key});
 
   @override
-  State<Chatbot> createState() => _HomeState();
+  State<Chatbot> createState() => _Chatbot();
 }
 
-class _HomeState extends State<Chatbot> {
+class _Chatbot extends State<Chatbot> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,10 +60,10 @@ class _ChatScreenState extends State<ChatScreen> {
     return Stack(
 
       children: [
-      Image.network(
-        'https://qualizeal.com/wp-content/uploads/2023/04/Why-is-Quality-Assurance-Important-in-Medical-Device-Testing.jpeg',
+      Image.asset(
+        'asset/images/back.jpeg',
 
-        fit:BoxFit.cover,height: double.infinity ,
+        fit:BoxFit.cover,height: double.infinity ,width: double.infinity,
       ),
         Padding(
     padding: const EdgeInsets.all(8.0),

@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hosptial_project/patient/patient_ui/home/find_doctor.dart';
 import 'package:hosptial_project/patient/patient_ui/medicalscreen/MydoctorScreen.dart';
+import 'package:hosptial_project/sheared/constant/constant.dart';
 import '../../../class/cubit/patient_cubit.dart';
 import '../../../class/cubit/patient_states.dart';
 import '../../../sheared/components/comopnents.dart';
+import 'homeSearch.dart';
 import 'doctor_catigories.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
@@ -19,6 +21,8 @@ class Home extends StatelessWidget {
       child: BlocConsumer<CubitPatientHosptial, PatientStates>(
         listener: (BuildContext context, Object? state) {},
         builder: (BuildContext context, state) {
+          TextEditingController SearchControler=TextEditingController();
+          var doooo;
           var departments=CubitPatientHosptial.get(context).departmentslist;
           var list = CubitPatientHosptial.get(context).doctrolist;
           return Scaffold(
@@ -66,11 +70,20 @@ class Home extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(20),
                                 color: Colors.grey[200],
                               ),
+
                               child: TextFormField(
+                                controller: SearchControler,
+                                onFieldSubmitted: (value){
+                                  navigator(HomeSearch(Dooc: SearchControler.text,), context);
+                                },
                                 decoration: InputDecoration(
                                   border: InputBorder.none,
                                   hintText: "search",
-                                  prefixIcon: Icon(Icons.search, color: Colors.black),
+                                  prefixIcon: InkWell(onTap: (){
+                                    navigator(HomeSearch(Dooc: SearchControler.text,), context);
+                                   // CubitPatientHosptial.get(context).HomeSearchdoctordata(Dooc);
+                                  },
+                                      child: Icon(Icons.search, color: Colors.black)),
                                 ),
                               ),
                             ),
@@ -118,7 +131,6 @@ class Home extends StatelessWidget {
                             width: MediaQuery.of(context).size.width,
                             margin: EdgeInsets.symmetric(horizontal: 5.0),
                             decoration: BoxDecoration(
-
                             ),
                             child:GestureDetector(
                               onTap: (){
@@ -132,10 +144,10 @@ class Home extends StatelessWidget {
                                     borderRadius: BorderRadius.circular(30), // Adjust radius to match your design
                                     boxShadow: [
                                       BoxShadow(
-                                        color: Colors.grey.withOpacity(0.5),
+                                        color: Colors.grey.withOpacity(1),
                                         spreadRadius: 5,
                                         blurRadius: 7,
-                                        offset: Offset(0, 3), // changes position of shadow
+                                        offset: Offset(1, 3), // changes position of shadow
                                       ),
                                     ],
                                   ),
@@ -210,7 +222,12 @@ class Home extends StatelessWidget {
                         itemCount: departments.length, // Replace with your actual number of items
                         separatorBuilder: (context, index) => SizedBox(width: 12), // Spacing between items
                         itemBuilder: (context, index) {
-                          return DepartmentsItem(departments[index]);
+                          return InkWell(
+                              onTap: (){
+                          //      navigator(FindDoctor(SpDepid: departments["id"],), context);
+
+                              },
+                              child: DepartmentsItem(departments[index],context));
                         },
                       ),
                     ),

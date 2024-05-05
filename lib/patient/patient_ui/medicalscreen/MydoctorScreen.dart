@@ -5,6 +5,7 @@ import 'package:hosptial_project/class/cubit/patient_states.dart';
 import '../../../class/cubit/patient_cubit.dart';
 import '../../../sheared/components/comopnents.dart';
 import '../../../sheared/constant/constant.dart';
+import '../home/homeSearch.dart';
 
 class MyDoctorScreen extends StatelessWidget {
   const MyDoctorScreen({Key? key});
@@ -16,6 +17,7 @@ class MyDoctorScreen extends StatelessWidget {
       child: BlocConsumer<CubitPatientHosptial, PatientStates>(
         listener: (BuildContext context, Object? state) {},
         builder: (BuildContext context, state) {
+          TextEditingController SearchControler=TextEditingController();
           var list = CubitPatientHosptial.get(context).doctrolist;
           return Scaffold(
             appBar: AppBar(
@@ -46,14 +48,19 @@ class MyDoctorScreen extends StatelessWidget {
                           borderRadius: BorderRadius.circular(10),
                           color: Colors.grey[300],
                         ),
-                        child: TextFormField(
+                        child:TextFormField(
+                          controller: SearchControler,
+                          onFieldSubmitted: (value){
+                            navigator(HomeSearch(Dooc: SearchControler.text,), context);
+                          },
                           decoration: InputDecoration(
                             border: InputBorder.none,
                             hintText: "search",
-                            prefixIcon: Icon(
-                              Icons.search,
-                              color: Colors.black,
-                            ),
+                            prefixIcon: InkWell(onTap: (){
+                              navigator(HomeSearch(Dooc: SearchControler.text,), context);
+                              // CubitPatientHosptial.get(context).HomeSearchdoctordata(Dooc);
+                            },
+                                child: Icon(Icons.search, color: Colors.black)),
                           ),
                         ),
                       ),

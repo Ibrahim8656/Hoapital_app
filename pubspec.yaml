@@ -50,6 +50,8 @@ dependencies:
   flutter_dotenv: ^5.1.0
   google_generative_ai: ^0.3.2
   flutter_markdown: ^0.6.18
+  get: ^4.6.6
+  avatar_view: ^1.0.1
 dev_dependencies:
   flutter_test:
     sdk: flutter

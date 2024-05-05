@@ -101,7 +101,7 @@ class CubitPatientHosptial extends Cubit<PatientStates> {
   }
 
   Regoster2({
-    required int age,
+     int? age,
     required String firstName,
     required String gender,
     required String lastName,
@@ -169,7 +169,7 @@ class CubitPatientHosptial extends Cubit<PatientStates> {
       url: 'https://fodail2011.pythonanywhere.com/api/doctors/',
     ).then((value) {
       doctrolist = value.data;
-      print('###################################${doctrolist}');
+      // print('###################################${doctrolist}');
       emit(GitDoctrodatastate());
     }).catchError((error) {
       print(error.toString());
@@ -183,7 +183,19 @@ class CubitPatientHosptial extends Cubit<PatientStates> {
       url: 'https://fodail2011.pythonanywhere.com/api/specialties/',
     ).then((value) {
       departmentslist = value.data;
-      print('###################################${departmentslist}');
+      // print('###################################${departmentslist}');
+      emit(GetDepatmentsstate());
+    }).catchError((error) {
+      print(error.toString());
+    });
+  }
+  void GetDoctorsOfDepatrtmet(int SpDepid){
+
+    Diohelper.getdata(
+      url: 'https://fodail2011.pythonanywhere.com/api/specialties/$SpDepid/doctors/',
+    ).then((value) {
+      departmentslist = value.data;
+      // print('###################################${departmentslist}');
       emit(GetDepatmentsstate());
     }).catchError((error) {
       print(error.toString());
@@ -191,14 +203,41 @@ class CubitPatientHosptial extends Cubit<PatientStates> {
   }
 
   Map<String, dynamic> Onedoctrolist = {};
-
   void git1doctordata(int spcificdos) {
     Diohelper.getdata(
       url: 'https://fodail2011.pythonanywhere.com/api/doctor/$spcificdos',
     ).then((value) {
       Onedoctrolist = value.data;
-      print('###################################${value.data}');
+      // print('###################################${value.data}');
       emit(Git1Doctrodatatate());
+    }).catchError((error) {
+      print(error.toString());
+    });
+  }
+  List<dynamic>doooc = [];
+  void HomeSearchdoctordata(String Dooc) {
+    Diohelper.getdata(
+      url: 'https://fodail2011.pythonanywhere.com/api/doctors/search/?firstname=$Dooc',
+    ).then((value) {
+      doooc = value.data;
+      // print('################HomeSearchdoctor##############${value.data}');
+      emit(Git1Doctrodatatate());
+    }).catchError((error) {
+      print(error.toString());
+    });
+
+
+  }
+
+
+  List<dynamic>dcWthithDep = [];
+  void FindDoctorWithCatigeoydata(int Depart) {
+    Diohelper.getdata(
+      url: 'https://fodail2011.pythonanywhere.com/api/specialties/$Depart/doctors/',
+    ).then((value) {
+      dcWthithDep = value.data;
+      print('################doctor in this department ##############${value.data}');
+      emit(GitDepartmentDoctrodatatate());
     }).catchError((error) {
       print(error.toString());
     });

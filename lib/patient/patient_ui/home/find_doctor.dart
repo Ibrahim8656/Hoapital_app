@@ -7,15 +7,17 @@ import '../../../class/cubit/patient_states.dart';
 import '../../../sheared/components/comopnents.dart';
 
 class FindDoctor extends StatelessWidget {
-  const FindDoctor({Key? key}) : super(key: key);
-
+  const FindDoctor({Key? key,required this.SpDepid,required this.Depart}) : super(key: key);
+final int SpDepid;
+final int Depart;
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (BuildContext context) => CubitPatientHosptial()..gitdoctorsdata(),
+      create: (BuildContext context) => CubitPatientHosptial()..FindDoctorWithCatigeoydata(Depart),
       child: BlocConsumer<CubitPatientHosptial, PatientStates>(
         listener: (BuildContext context, Object? state) {},
         builder: (BuildContext context, state) {
+          var doctorindepart=CubitPatientHosptial.get(context).dcWthithDep;
           var list = CubitPatientHosptial.get(context).doctrolist;
           return ConditionalBuilder(
             condition: CubitPatientHosptial.get(context).doctrolist != null,
@@ -41,7 +43,9 @@ class FindDoctor extends StatelessWidget {
                   ),
                 ),
               ),
-              body: Padding(
+              body: state is ! GitDepartmentDoctrodatatate
+                  ? Center(child: CircularProgressIndicator())
+                  :Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: Column(
                   children: [
@@ -57,7 +61,7 @@ class FindDoctor extends StatelessWidget {
                         children: [
                           SizedBox(width: 15),
                           Text(
-                            'Dental',
+                            '${doctorindepart[0]['specialty_name']}',
                             style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
                           ),
                         ],
@@ -66,9 +70,9 @@ class FindDoctor extends StatelessWidget {
                     SizedBox(height: 20),
                     Expanded(
                       child: ListView.separated(
-                        itemBuilder: (context, index) => DoctorItem(list[index], context, index),
+                        itemBuilder: (context, index) => DoctorItem(doctorindepart[index], context, index),
                         separatorBuilder: (context, index) => SizedBox(height: 3.0),
-                        itemCount: list.length,
+                        itemCount: doctorindepart.length,
                       ),
                     ),
                   ],
