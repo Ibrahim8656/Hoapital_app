@@ -1,6 +1,9 @@
 class Constants{
   static String? access;
-  static int? userId;
+  static String? bookingsucsses;
+  static String? imagepath;
+  static late int userId;
+  static late int timeId;
   static int? loginId;
   static String? doctors;
   static  Map<String,dynamic>? eqalresponse;

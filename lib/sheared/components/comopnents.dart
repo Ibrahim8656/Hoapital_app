@@ -5,6 +5,8 @@ import 'package:hosptial_project/patient/patient_ui/resrvation/SelectTime.dart';
 
 import '../../class/cubit/patient_cubit.dart';
 import '../../patient/patient_ui/home/find_doctor.dart';
+import '../../patient/patient_ui/resrvation/doctorTimeslot.dart';
+import '../../patient/patient_ui/resrvation/pocking.dart';
 import '../constant/constant.dart';
 //you need to do reasable component of 4 icons
 Color defualtcolelr=HexColor('3D85C6');
@@ -453,6 +455,27 @@ Widget patientprofileitem({
   ),
 );
 
+
+Widget Dayitemreservatio(String day,context,doctor)=>Container(
+  width: 200,
+  height: 60,
+  decoration: BoxDecoration(borderRadius: BorderRadius.circular(8)),
+  clipBehavior: Clip.antiAliasWithSaveLayer,
+  child: MaterialButton(
+    onPressed:(){
+       navigator(TimeSlot(docID: doctor['id'], Day: '$day',), context);
+    } ,
+    color: defualtcolelr,
+    child: Text(
+      '$day',
+      style: TextStyle(color: Colors.white,
+          fontWeight: FontWeight.bold,
+          fontSize: 16),
+    ),
+  ),
+);
+
+
 Widget Defultbotom(////////////////////////////////////////////////////////////////////
     {
       required  VoidCallback onPressed,
@@ -479,6 +502,54 @@ Widget Defultbotom(/////////////////////////////////////////////////////////////
 void handleClick(String value) {
   print("Selected: $value");
 }
+
+Widget TimeSlotItem(time,index,context)=>Padding(
+  padding: const EdgeInsets.all(10.0),
+  child: Container(
+    decoration: BoxDecoration(
+      color: Colors.white,
+      borderRadius:BorderRadius.circular(10),
+      boxShadow: [
+        BoxShadow(
+          color: Colors.grey.withOpacity(0.5),
+          spreadRadius: 1,
+          blurRadius: 1,
+          // changes position of shadow
+        ),
+      ],
+
+    ),
+    height: 70,
+    width: double.infinity,
+    child:Padding(
+      padding: const EdgeInsets.all(20.0),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+        Text('${time[index]['start_time']}',style: TextStyle(fontSize: 20,fontWeight:FontWeight.bold),),
+          SizedBox(width: 140,),
+
+          GestureDetector(onTap: (){
+            int  patientId = Constants.userId;
+            int timeId=time[index]['id'];
+
+            CubitPatientHosptial.get(context).Booking(slot_id:timeId, patient_id: patientId );
+            // navigator(booking(), context);
+          },
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(5),
+                color: defualtcolelr,
+              ),
+                child: Center(child: Text('Book',style: TextStyle(color: Colors.white),)),
+                width: 60,height: 30
+            ),
+          ),
+
+      ],),
+    ),
+  ),
+);
 
 
 

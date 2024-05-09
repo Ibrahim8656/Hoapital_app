@@ -60,10 +60,12 @@ class _ChatScreenState extends State<ChatScreen> {
     return Stack(
 
       children: [
-      Image.asset(
-        'asset/images/back.jpeg',
+      SingleChildScrollView(
+        child: Image.network(
+          'https://img.freepik.com/premium-photo/human-helix-dna-structure-concept-blue-color-ai-generated_444663-845.jpg?w=740',
 
-        fit:BoxFit.cover,height: double.infinity ,width: double.infinity,
+          fit:BoxFit.cover,height: 1000 ,width: double.infinity,
+        ),
       ),
         Padding(
     padding: const EdgeInsets.all(8.0),
@@ -104,7 +106,7 @@ class _ChatScreenState extends State<ChatScreen> {
     autofocus: true,
     decoration: InputDecoration(
     contentPadding: const EdgeInsets.symmetric(vertical: 17.0, horizontal: 10.0),
-    hintText: 'Enter your questions ',
+    hintText: '  Enter your questions ',
     border: OutlineInputBorder(),
     enabledBorder: OutlineInputBorder(
     borderSide: BorderSide(color: Colors.grey, width: 1.5),
@@ -126,7 +128,7 @@ class _ChatScreenState extends State<ChatScreen> {
     borderRadius: BorderRadius.circular(30.0),
     ),
     filled: true,
-    fillColor: const Color(0xFFF1F4F8),
+    fillColor: Colors.grey[300],
 
 
     ),

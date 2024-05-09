@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
@@ -13,6 +15,7 @@ import '../../patient/patient_ui/home/homescreen.dart';
 import '../../patient/patient_ui/medicalscreen/medicalscreen.dart';
 import '../../patient/patient_ui/profile/Myprofile.dart';
 import 'models/Login_respone.dart';
+import 'models/bookingmodel.dart';
 
 class CubitPatientHosptial extends Cubit<PatientStates> {
   CubitPatientHosptial(): super(patientInitial());
@@ -108,6 +111,7 @@ class CubitPatientHosptial extends Cubit<PatientStates> {
     required String phone,
     required String address,
     required String blood,
+    required   photo,
   }) async {
     try {
       emit(PatientSignUPLoading());
@@ -120,8 +124,11 @@ class CubitPatientHosptial extends Cubit<PatientStates> {
         'phone_number': phone,
         'address': address,
         'blood': blood,
+        'photo': photo != null ? await MultipartFile.fromFile(photo.path) : null,
       };
-      var dio = Dio(); // Create Dio instance
+      var dio = Dio();
+      dio.options.contentType = Headers.multipartFormDataContentType;
+// Create Dio instance
       dio.options.headers["Authorization"] = "Bearer ${Constants.access}";
       print('###################${dio.options.headers["Authorization"]}');
       Response response = await dio.post(
@@ -136,6 +143,45 @@ class CubitPatientHosptial extends Cubit<PatientStates> {
       emit(PatientSignUPFailure(errorMassage: e.toString()));
     }
   }
+
+ //  Regoster2({
+ //  int? age,
+ //  required String firstName,
+ //  required String gender,
+ //  required String lastName,
+ //  required String phone,
+ //  required String address,
+ //  required String blood,
+ // // required  photo,
+ //  }) async {
+ //  try {
+ //  emit(PatientSignUPLoading());
+ //  Map<String, dynamic> userData = {
+ //  'firstname': firstName,
+ //  'lastname': lastName,
+ //  'gender': gender,
+ //  'user': Constants.userId,
+ //  'age': age,
+ //  'phone_number': phone,
+ //  'address': address,
+ //  'blood': blood,
+ //    //'photo': photo != null ? await MultipartFile.fromFile(photo.path) : null,
+ //  };
+ //  var dio = Dio(); // Create Dio instance
+ //  dio.options.headers["Authorization"] = "Bearer ${Constants.access}";
+ //  print('###################${dio.options.headers["Authorization"]}');
+ //  Response response = await dio.post(
+ //  'https://fodail2011.pythonanywhere.com/api/register/step2/',
+ //  // Make sure this is the correct endpoint
+ //  data: userData,
+ //  );
+ //  print(response.data);
+ //  emit(PatientSignUPSuccess());
+ //  } on DioException catch (e) {
+ //  print('Error: ${e.response?.statusCode} ${e.message}');
+ //  emit(PatientSignUPFailure(errorMassage: e.toString()));
+ //  }
+ //  }
 
   IconData suffix = Icons.visibility_outlined;
   bool isPassword = false;
@@ -161,6 +207,7 @@ class CubitPatientHosptial extends Cubit<PatientStates> {
       print(error.toString());
     });
   }
+
 
   List<dynamic> doctrolist = [];
 
@@ -246,4 +293,47 @@ class CubitPatientHosptial extends Cubit<PatientStates> {
   void handleClick(String value) {
     print("Selected:$value");
   }
+  Map<String, dynamic> Timeslot = {};
+  List<dynamic> timelist = [];
+
+  void GitDoctorTime(int docID,String Day) {
+    Diohelper.getdata(
+      url:
+      'https://fodail2011.pythonanywhere.com/api/doctor-time-slots/$docID/$Day/',
+    ).then((value) {
+      Timeslot = value.data;
+      timelist= Timeslot['time_slots'];
+      print('@@@@@@@@@@@@@@@@@@@@@@4${Timeslot['DAY']}');
+      emit(GitDoctorTimestate());
+    }).catchError((error) {
+      print(error.toString());
+    });
+  }
+
+
+  Booking({
+    required int slot_id,
+    required int patient_id,
+
+  }) async {
+    try {
+      emit(BookingUPLoading());
+      Map<String, dynamic> userData = {
+        "patient_id": patient_id,
+        "slot_id": slot_id,
+      };
+      Response response = await Dio().post(
+        'https://fodail2011.pythonanywhere.com/api/book-appointment/',
+        data: userData,
+      );
+      Constants.bookingsucsses=response.data['success'];
+      print('%%%%%%%%%%%%%%%%%%%Boking%%%%%${response.data['success']}');
+      final BookingResponse bookingResponse = BookingResponse.fromJson(response.data);
+      emit(BookingSuccss());
+    } on DioException catch (e) {
+      print(e.error.toString());
+      emit(BookingFailure(e.toString()));
+    }
+  }
+
 } ////

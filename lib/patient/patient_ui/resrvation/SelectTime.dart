@@ -2,14 +2,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:hosptial_project/patient/patient_ui/resrvation/doctorTimeslot.dart';
 import '../../../../class/cubit/patient_cubit.dart';
 import '../../../../sheared/components/comopnents.dart';
 import '../../../class/cubit/patient_states.dart';
 import 'calenderScreen.dart';
 
 class SelectTime extends StatelessWidget {
-  const SelectTime({super.key,required this.spcificdos});
+  const SelectTime({super.key,required this.spcificdos,});
   final int spcificdos;
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -98,71 +100,22 @@ class SelectTime extends StatelessWidget {
                   child: Row(
                     children: [
                       SizedBox(width: 25,),
-                      Container(
-                        height: 60,
-                        width: 160,
-                        decoration:BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            border: Border.all(width: 1.8,color: Colors.black54)
-                        ),
-                        child: Center(child: Text('Today',style: TextStyle(
-                            fontSize: 20
-                        ),)),
-                      ),
+                      Dayitemreservatio('Wednesday',context,doctor),
                       SizedBox(width: 20,),
-                      Container(
-                        height: 60,
-                        width: 160,
-                        decoration:BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            border: Border.all(width: 1.8,color: Colors.black54)
-                        ),
-                        child: Center(child: Text('Today',style: TextStyle(
-                            fontSize: 20
-                        ),)),
-                      ),
+                      Dayitemreservatio('Thursday',context,doctor),
                       SizedBox(width: 20,),
-                      Container(
-                        height: 60,
-                        width: 160,
-                        decoration:BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            border: Border.all(width: 1.8,color: Colors.black54)
-                        ),
-                        child: Center(child: Text('Today',style: TextStyle(
-                            fontSize: 20
-                        ),)),
-                      ),
+                      Dayitemreservatio('Friday',context,doctor),
                       SizedBox(width: 20,),
-                      Container(
-                        height: 60,
-                        width: 160,
-                        decoration:BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            border: Border.all(width: 1.8,color: Colors.black54)
-                        ),
-                        child: Center(child: Text('Today',style: TextStyle(
-                            fontSize: 20
-                        ),)),
-                      ),
-                      SizedBox(width: 20,),
-                      Container(
-                        height: 60,
-                        width: 160,
-                        decoration:BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            border: Border.all(width: 1.8,color: Colors.black54)
-                        ),
-                        child: Center(child: Text('Today',style: TextStyle(
-                            fontSize: 20
-                        ),)),
-                      ),
+                      Dayitemreservatio('Friday',context,doctor),
+                      Dayitemreservatio('Saturday',context,doctor),
                     ],
                   ),
                 ),
+
+
                 SizedBox(height: 70,),
                 InkWell(onTap: (){
-                  navigator(CalenderSelectTime(), context);
+                   navigator(TimeSlot(docID: doctor['id'], Day: '',), context);
                 },
                   child: Container(
                     height: 60,

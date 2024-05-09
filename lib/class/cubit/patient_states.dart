@@ -48,6 +48,14 @@ class Git1Doctrodatatate extends PatientStates {}
 class PatientLoadingState extends PatientStates {}
 class GetDepatmentsstate extends PatientStates {}
 class GitDepartmentDoctrodatatate extends PatientStates {}
+class GitDoctorTimestate extends PatientStates {}
+class BookingUPLoading extends PatientStates {}
+class BookingSuccss extends PatientStates {}
+class BookingFailure  extends PatientStates {
+  final String error;
+
+  BookingFailure(this.error);
+}
 
 
 
