@@ -1,4 +1,7 @@
+import 'dart:convert';
 import 'dart:io';
+
+import 'package:http_parser/http_parser.dart';
 
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
@@ -106,16 +109,16 @@ class CubitPatientHosptial extends Cubit<PatientStates> {
   Regoster2({
      int? age,
     required String firstName,
-    required String gender,
+    required String? gender,
     required String lastName,
     required String phone,
     required String address,
-    required String blood,
+    required String? blood,
     required   photo,
   }) async {
     try {
       emit(PatientSignUPLoading());
-      Map<String, dynamic> userData = {
+      FormData formData = FormData.fromMap({
         'firstname': firstName,
         'lastname': lastName,
         'gender': gender,
@@ -124,8 +127,9 @@ class CubitPatientHosptial extends Cubit<PatientStates> {
         'phone_number': phone,
         'address': address,
         'blood': blood,
-        'photo': photo != null ? await MultipartFile.fromFile(photo.path) : null,
-      };
+        'photo': photo != null ? await MultipartFile.fromFile(photo.path, contentType: MediaType("media", "jpeg")) : null,
+      });
+
       var dio = Dio();
       dio.options.contentType = Headers.multipartFormDataContentType;
 // Create Dio instance
@@ -134,7 +138,7 @@ class CubitPatientHosptial extends Cubit<PatientStates> {
       Response response = await dio.post(
         'https://fodail2011.pythonanywhere.com/api/register/step2/',
         // Make sure this is the correct endpoint
-        data: userData,
+        data: formData,
       );
       print(response.data);
       emit(PatientSignUPSuccess());
@@ -196,6 +200,7 @@ class CubitPatientHosptial extends Cubit<PatientStates> {
   Map<String, dynamic> patient = {};
 
   void gitpatientdata() {
+    emit(patientlodingstate());
     Diohelper.getdata(
       url:
           'https://fodail2011.pythonanywhere.com/api/patient/${Constants.userId}',
@@ -335,5 +340,6 @@ class CubitPatientHosptial extends Cubit<PatientStates> {
       emit(BookingFailure(e.toString()));
     }
   }
+
 
 } ////

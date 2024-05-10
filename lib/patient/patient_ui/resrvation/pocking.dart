@@ -35,7 +35,7 @@ class _DropdownFormExampleState extends State<DropdownFormExample> {
                 ),
                 onChanged: (String? newValue) {
                   setState(() {
-                    _selectedOption = newValue;
+                    _selectedOption = newValue;/////constant variable
                   });
                 },
                 items: <String>['Option 1', 'Option 2', 'Option 3']
@@ -64,5 +64,3 @@ class _DropdownFormExampleState extends State<DropdownFormExample> {
     );
   }
 }
-
-

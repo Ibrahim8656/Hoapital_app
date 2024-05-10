@@ -43,6 +43,7 @@ class SuccsseGetdoctorData extends PatientStates {}
 class Caangeiconpassword  extends PatientStates {}
 
 class GitPaptientdatastate extends PatientStates {}
+class patientlodingstate extends PatientStates {}
 class GitDoctrodatastate extends PatientStates {}
 class Git1Doctrodatatate extends PatientStates {}
 class PatientLoadingState extends PatientStates {}

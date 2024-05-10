@@ -25,11 +25,11 @@ class first_chaty extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+            Column(
+
               children: [
                 SizedBox(
-                  height: 500,
+                  height: 80,
                 ),
                 GestureDetector(
                   onTap:() {
@@ -51,7 +51,21 @@ class first_chaty extends StatelessWidget {
                     ),
                   ),
                 ),
+                SizedBox(
+                  height: 30,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    IconButton(onPressed: (){
+                      Navigator.push(context, MaterialPageRoute(builder:(context)=>Chatbot()));
+                    }, icon: Icon(CupertinoIcons.chat_bubble_text,color: defualtcolelr,size: 50,))
+                  ],
+                ),
               ],
+            ),
+            SizedBox(
+              height: 10,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,

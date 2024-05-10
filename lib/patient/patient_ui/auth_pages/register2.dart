@@ -15,6 +15,7 @@ import 'package:hosptial_project/sheared/constant/constant.dart';
 
 class Register2 extends StatefulWidget {
   const Register2({super.key});
+
   @override
   State<Register2> createState() => _RegisterState();
 }
@@ -22,6 +23,7 @@ class Register2 extends StatefulWidget {
 class _RegisterState extends State<Register2> {
   File? imageFile;
   final picker = ImagePicker();
+
   Future pickImage() async {
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
@@ -35,6 +37,10 @@ class _RegisterState extends State<Register2> {
   bool obscureText = true;
   bool obscureText1 = true;
   var formky = GlobalKey<FormState>();
+
+    String? selectedGender = 'Male'; // Default or initial value
+    String? selectedBloodType = 'A+'; // Default or initial value
+
   var FirstnameController = TextEditingController();
   var agecontroller = TextEditingController();
   final emailController = TextEditingController();
@@ -105,7 +111,9 @@ class _RegisterState extends State<Register2> {
                         ),
                       ],
                     ),
-                    SizedBox(height: 20,),
+                    SizedBox(
+                      height: 20,
+                    ),
                     Container(
                       decoration: BoxDecoration(
                           color: Colors.white,
@@ -114,7 +122,7 @@ class _RegisterState extends State<Register2> {
                       height: 750,
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
-                            horizontal: 20.0, vertical: 15),
+                            horizontal: 25.0, vertical: 15),
                         child: Form(
                           key: formky,
                           child: SingleChildScrollView(
@@ -182,7 +190,7 @@ class _RegisterState extends State<Register2> {
                                       }
                                       return null;
                                     },
-                                    typekey: TextInputType.visiblePassword,
+                                    typekey: TextInputType.number,
                                     controller: agecontroller,
                                     prefexicon: Icons.email,
                                     labletext: 'age '),
@@ -196,7 +204,7 @@ class _RegisterState extends State<Register2> {
                                       }
                                       return null;
                                     },
-                                    typekey: TextInputType.name,
+                                    typekey: TextInputType.number,
                                     controller: PhonenumberController,
                                     prefexicon: Icons.phone,
                                     labletext: 'phone number '),
@@ -217,31 +225,104 @@ class _RegisterState extends State<Register2> {
                                 SizedBox(
                                   height: 25,
                                 ),
-                                defolttextformfild(
-                                    validate: (String? value) {
-                                      if (value!.isEmpty) {
-                                        return "Gender is required";
-                                      }
-                                      return null;
-                                    },
-                                    typekey: TextInputType.name,
-                                    controller: GenderController,
-                                    prefexicon: Icons.transgender,
-                                    labletext: 'Gender '),
+                                DropdownButtonFormField<String>(
+                                  value: selectedGender,
+                                  decoration:  InputDecoration(
+                                    contentPadding: const EdgeInsets.symmetric(
+                                        vertical: 17.0, horizontal: 10.0),
+                                    labelText: 'select your Gender',
+                                    border: OutlineInputBorder(),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Colors.grey.shade300,
+                                          width: 1.5),
+                                      borderRadius: BorderRadius.circular(30),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: defualtcolelr,
+                                        width: 2.0,
+                                      ),
+                                      borderRadius: BorderRadius.circular(30.0),
+                                    ),
+                                    errorBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: Colors.red,
+                                        width: 2.0,
+                                      ),
+                                      borderRadius: BorderRadius.circular(30.0),
+                                    ),
+                                    prefixIcon: Icon(
+                                      Icons.transgender,
+                                      color: Colors.black26,
+                                    ),
+                                    filled: true,
+                                    fillColor: const Color(0xFFF1F4F8),
+                                  ),
+                                  onChanged: (String? newValue) {
+                                    setState(() {
+                                      selectedGender = newValue;
+                                    });
+                                  },
+                                  items: <String>['Male', 'Female'].map<DropdownMenuItem<String>>((String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Text(value),
+                                    );
+                                  }).toList(),
+                                ),
                                 SizedBox(
                                   height: 25,
                                 ),
-                                defolttextformfild(
-                                    validate: (String? value) {
-                                      if (value!.isEmpty) {
-                                        return "blood is required";
-                                      }
-                                      return null;
-                                    },
-                                    typekey: TextInputType.name,
-                                    controller: BloodController,
-                                    prefexicon: Icons.bloodtype,
-                                    labletext: 'blood  '),
+                                DropdownButtonFormField<String>(
+                                  value: selectedBloodType,
+                                  decoration:   InputDecoration(
+                                    contentPadding: const EdgeInsets.symmetric(
+                                        vertical: 17.0, horizontal: 10.0),
+                                    labelText: 'select your blood type',
+                                    border: OutlineInputBorder(),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Colors.grey.shade300,
+                                          width: 1.5),
+                                      borderRadius: BorderRadius.circular(30),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: defualtcolelr,
+                                        width: 2.0,
+                                      ),
+                                      borderRadius: BorderRadius.circular(30.0),
+                                    ),
+                                    errorBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: Colors.red,
+                                        width: 2.0,
+                                      ),
+                                      borderRadius: BorderRadius.circular(30.0),
+                                    ),
+                                    prefixIcon: Icon(
+                                      Icons.bloodtype,
+                                      color: Colors.black26,
+                                    ),
+                                    filled: true,
+                                    fillColor: const Color(0xFFF1F4F8),
+                                  ),
+                                  onChanged: (String? newValue) {
+                                    setState(() {
+                                      selectedBloodType =
+                                          newValue; /////constant variable
+                                    });
+                                  },
+
+                                  items: <String>['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-']
+                                      .map<DropdownMenuItem<String>>((String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Text(value),
+                                    );
+                                  }).toList(),
+                                ),
                                 SizedBox(
                                   height: 25,
                                 ),
@@ -276,18 +357,22 @@ class _RegisterState extends State<Register2> {
                                         ),
                                       ),
                                     ),
-                                    child: Row(children: [
-                                      IconButton(
-                                        onPressed: pickImage,
-                                        icon: Icon(Icons.image,
-                                            color: Colors.black26),
-                                      ),
-                                      SizedBox(width: 1,),
-                                      Text('select image',
-                                          style: TextStyle(
-                                              color: Colors.black54,
-                                              fontSize: 16)),
-                                    ],),
+                                    child: Row(
+                                      children: [
+                                        IconButton(
+                                          onPressed: pickImage,
+                                          icon: Icon(Icons.image,
+                                              color: Colors.black26),
+                                        ),
+                                        SizedBox(
+                                          width: 1,
+                                        ),
+                                        Text('select image',
+                                            style: TextStyle(
+                                                color: Colors.black54,
+                                                fontSize: 16)),
+                                      ],
+                                    ),
                                   ),
                                 ),
                                 SizedBox(height: 40),
@@ -296,17 +381,18 @@ class _RegisterState extends State<Register2> {
                                     condition: state is! PatientSignUPLoading,
                                     builder: (context) => Defultbotom(
                                         onPressed: () {
-                                          print('************************${imageFile}');
+                                          print(
+                                              '************************${imageFile}');
                                           if (formky.currentState!.validate()) ;
                                           CubitPatientHosptial.get(context)
                                               .Regoster2(
                                             age: int.parse(agecontroller.text),
                                             firstName: FirstnameController.text,
-                                            gender: GenderController.text,
+                                            gender: selectedGender,
                                             lastName: LastnameController.text,
                                             phone: PhonenumberController.text,
                                             address: AddressController.text,
-                                            blood: BloodController.text,
+                                            blood: selectedBloodType,
                                             photo: imageFile,
                                           );
                                           if (state is PatientSignUPSuccess) {
@@ -315,10 +401,10 @@ class _RegisterState extends State<Register2> {
                                         },
                                         text: 'Create account'),
                                     fallback: (context) =>
-                                        CircularProgressIndicator()
+                                        CircularProgressIndicator()),
+                                SizedBox(
+                                  height: 300,
                                 ),
-                                SizedBox(height: 300,),
-
                               ],
                             ),
                           ),

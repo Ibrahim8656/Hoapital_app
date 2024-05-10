@@ -19,7 +19,6 @@ class SignIn extends StatefulWidget {
   @override
   State<SignIn> createState() => _SignIn();
 }
-
 class _SignIn extends State<SignIn> {
   bool obscureText = true;
   bool obscureText1 = true;
