@@ -194,7 +194,7 @@ class _SignIn extends State<SignIn> {
                                         InkWell(onTap: (){
                                           navigator(Register(), context);
                                         },
-                                          child: Text("Create New Account.////////////////////////fac/goo",style: TextStyle(
+                                          child: Text("Create New Account.",style: TextStyle(
                                               color: defualtcolelr,fontSize: 16
                                           ),),
                                         )

@@ -34,20 +34,25 @@ class SelectTime extends StatelessWidget {
               ),
               elevation: 10,
             ),
-            body:Column(
+            body:
+            state is! Git1Doctrodatatate
+                ? Center(child: CircularProgressIndicator())
+                :
+            Column(
               children: [
                 Padding(
                   padding: const EdgeInsets.all(25.0),
                   child: Container(
                     width: double.infinity,
                     decoration: BoxDecoration(
-                      color: defualtcolelr,
+                      color: Colors.white,
                       borderRadius:BorderRadius.circular(10),
                       boxShadow: [
                         BoxShadow(
                           color: Colors.grey.withOpacity(0.5),
-                          spreadRadius: 1,
-                          blurRadius: 1,
+                          spreadRadius: 5,
+                          blurRadius: 5,
+
                           // changes position of shadow
                         ),
                       ],
@@ -67,23 +72,24 @@ class SelectTime extends StatelessWidget {
                                       clipBehavior: Clip.antiAliasWithSaveLayer,
                                       height: 100,
                                       width: 100,
-                                      child: Image.asset('asset/images/gogo.jpeg',fit:BoxFit.cover,)
+                                      child: Image.network('${doctor['photo']}',fit:BoxFit.cover,)
                                   ),
                                 ),
                               ],
                             ),
-                            SizedBox(width: 10,),
+                            SizedBox(width: 12,),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text('Dr.${doctor['firstname']}',style: TextStyle(
                                     fontWeight: FontWeight.bold,
-                                    fontSize: 20,color: Colors.white
+                                    fontSize: 20,color: Colors.black
                                 ),
                                 ),
+                                SizedBox(height: 8,),
                                 Text(
                                   '${doctor['specialty_name']}',style: TextStyle(
-                                    color:Colors.white,fontSize: 15
+                                    color:Colors.grey[500],fontSize: 15
                                 ),
                                 ),
                               ],
@@ -158,6 +164,5 @@ class SelectTime extends StatelessWidget {
         },
       ),
     );
-
   }
 }

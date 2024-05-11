@@ -534,7 +534,7 @@ Widget TimeSlotItem(time,index,context)=>Padding(
             int timeId=time[index]['id'];
 
             CubitPatientHosptial.get(context).Booking(slot_id:timeId, patient_id: patientId );
-            // navigator(booking(), context);
+             navigator(Booking(), context);
           },
             child: Container(
               decoration: BoxDecoration(

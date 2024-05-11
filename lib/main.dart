@@ -1,9 +1,11 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:hosptial_project/class/bloc_observer.dart';
 import 'package:hosptial_project/class/cubit/diohelper.dart';
+import 'package:hosptial_project/class/cubit/patient_cubit.dart';
 import 'package:hosptial_project/class/cubit/patient_states.dart';
 import 'package:hosptial_project/homelayout/home_layout.dart';
 import 'package:hosptial_project/homelayout/splash-page.dart';
@@ -36,19 +38,37 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme:  ThemeData(
-        bottomNavigationBarTheme: BottomNavigationBarThemeData(
-          backgroundColor: defualtcolelr,
-          selectedItemColor: Colors.white
+    return BlocProvider(
+      create: (BuildContext context) => CubitPatientHosptial()..gitdoctorsdata()..GetDepatments()..GetDepatments(),
+      child:  BlocConsumer<CubitPatientHosptial, PatientStates>(
+        listener: (BuildContext context, state) {
+      // Listener can be used to handle actions like showing snackbar on errors, etc.
+      if (state is PatientSignInFailure) {
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(state.errorMassage))
+        );
+      }
+    },
+    builder: (BuildContext context, state) {
+      var cubit = CubitPatientHosptial.get(context); // Usi
+      return MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+            bottomNavigationBarTheme: BottomNavigationBarThemeData(
+                backgroundColor: defualtcolelr,
+                selectedItemColor: Colors.white
+            ),
+            appBarTheme: AppBarTheme(
+                titleTextStyle: TextStyle(color: Colors.white,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold),
+                color: HexColor('3D85C6')
+            )
         ),
-        appBarTheme: AppBarTheme(
-          titleTextStyle: TextStyle(color: Colors.white,fontSize: 20,fontWeight: FontWeight.bold),
-          color: HexColor('3D85C6')
-        )
-      ),
-      home: SignIn(),
+        home: SignIn(),
+      );
+    }
+      )
     );
   }
 }

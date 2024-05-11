@@ -256,6 +256,7 @@ class CubitPatientHosptial extends Cubit<PatientStates> {
 
   Map<String, dynamic> Onedoctrolist = {};
   void git1doctordata(int spcificdos) {
+    emit(Lodingstatedoc());
     Diohelper.getdata(
       url: 'https://fodail2011.pythonanywhere.com/api/doctor/$spcificdos',
     ).then((value) {

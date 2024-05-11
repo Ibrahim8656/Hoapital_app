@@ -46,6 +46,7 @@ class GitPaptientdatastate extends PatientStates {}
 class patientlodingstate extends PatientStates {}
 class GitDoctrodatastate extends PatientStates {}
 class Git1Doctrodatatate extends PatientStates {}
+class Lodingstatedoc extends PatientStates {}
 class PatientLoadingState extends PatientStates {}
 class GetDepatmentsstate extends PatientStates {}
 class GitDepartmentDoctrodatatate extends PatientStates {}
