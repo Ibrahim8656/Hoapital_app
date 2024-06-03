@@ -53,6 +53,7 @@ dependencies:
   google_generative_ai: ^0.3.2
   flutter_markdown: ^0.6.18
   get: ^4.6.6
+  lottie: ^3.1.1
   avatar_view: ^1.0.1
 dev_dependencies:
   flutter_test:

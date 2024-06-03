@@ -4,7 +4,10 @@ import 'models/history_medical_model.dart';
 abstract class DoctorStates{}
 class DoctorInitial extends DoctorStates{}
 class DoctorSignInLoading extends DoctorStates {}
-class DoctorSignInSuccess  extends DoctorStates {}
+class DoctorSignInSuccess  extends DoctorStates {
+  final  data ;
+  DoctorSignInSuccess({required this.data});
+}
 class DoctorSignInFailure extends DoctorStates {
   final String errorMassage;
   DoctorSignInFailure({required this.errorMassage});}

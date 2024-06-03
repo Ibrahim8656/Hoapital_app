@@ -3,6 +3,7 @@ class Constants{
   static String? bookingsucsses;
   static String? imagepath;
   static late int userId;
+  static late int DoctorId;
   static late int timeId;
   static int? loginId;
   static String? doctors;

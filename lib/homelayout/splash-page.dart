@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:hosptial_project/patient/patient_ui/smooth-page/main_smooth.dart';
+
+import '../users/patient_ui/smooth-page/main_smooth.dart';
+
 
 
 

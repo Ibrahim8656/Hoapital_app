@@ -2,8 +2,8 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:http_parser/http_parser.dart';
-
 import 'package:bloc/bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -13,17 +13,21 @@ import 'package:hosptial_project/class/cubit/models/register1response.dart';
 import 'package:hosptial_project/class/cubit/patient_states.dart';
 import 'package:hosptial_project/sheared/constant/constant.dart';
 import 'package:hosptial_project/sheared/remote/endpoint.dart';
-import '../../patient/patient_ui/chatbot/first_chat.dart';
-import '../../patient/patient_ui/home/homescreen.dart';
-import '../../patient/patient_ui/medicalscreen/medicalscreen.dart';
-import '../../patient/patient_ui/profile/Myprofile.dart';
+import '../../users/doctor_ui/dochome/dochome.dart';
+import '../../users/doctor_ui/doctor_profile/profile_of_doctor.dart';
+import '../../users/patient_ui/chatbot/first_chat.dart';
+import '../../users/patient_ui/home/homescreen.dart';
+import '../../users/patient_ui/medicalscreen/medicalscreen.dart';
+import '../../users/patient_ui/profile/Myprofile.dart';
 import 'models/Login_respone.dart';
 import 'models/bookingmodel.dart';
+import 'models/doctor_login_respone.dart';
 
 class CubitPatientHosptial extends Cubit<PatientStates> {
   CubitPatientHosptial(): super(patientInitial());
   PageController pagecontroll = PageController(initialPage: 0);
   var currentIndex = 0;
+  var doccurrentIndex = 0;
   static CubitPatientHosptial get(context) => BlocProvider.of(context);
   List<Widget> Screens = [
     Home(),
@@ -41,6 +45,18 @@ class CubitPatientHosptial extends Cubit<PatientStates> {
   void ontap(int index) {
     currentIndex = index;
     emit(Ontap());
+  } List<Widget> docScreens = [
+    doc_home(),
+    Doctor_profile(),
+  ];
+
+  List<BottomNavigationBarItem> doctorbottomNavigationbar = [
+    BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+    BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
+  ];
+  void docontap(int index) {
+    doccurrentIndex = index;
+    emit(docOntap());
   }
 
   void onPageChanged(int pageIndex, int selectedIconIndex) {
@@ -71,6 +87,49 @@ class CubitPatientHosptial extends Cubit<PatientStates> {
       print(e.error.toString());
       emit(PatientLoginFailure(errorMassage: e.toString()));
     }
+  }
+
+  Map<String, dynamic> logindoctorlist = {};
+  DoctorLogin({
+    required String password,
+    required String username,
+  }) async {
+    try {
+      emit(DoctorSignInLoading());
+      Map<String, dynamic> userData = {
+        "username": username,
+        "password": password,
+      };
+      Response response = await Dio().post(
+        'https://fodail2011.pythonanywhere.com/api/login/',
+        data: userData,
+      );
+      final DoctorLoginResponse logindoctorlist = DoctorLoginResponse.fromJson(response.data);
+      Constants.DoctorId = response.data['doctor_id'];
+      print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%${response.data}');
+      emit(DoctorSignInSuccess(data: response.data));
+    } on DioException catch (e) {
+      print(e.error.toString());
+      emit(DoctorSignInFailure(errorMassage: e.toString()));
+    }
+  }
+  String dayName = DateFormat('EEEE').format(DateTime.now());
+  Map<String, dynamic> Bookedpatient = {};
+  List<dynamic> patientbookedlist=[];
+
+  void gitBokingpatientdata() {
+    emit(BOkingpatientlodingstate());
+    Diohelper.getdata(
+      url:
+      'https://fodail2011.pythonanywhere.com/api/Patientlsit/${Constants.DoctorId}/$dayName',
+    ).then((value) {
+      Bookedpatient = value.data;
+      patientbookedlist=Bookedpatient['time_slots'];
+      print('@@@@@@@@@@@@@patient booking list@@@@@@@@@4${Bookedpatient}');
+      emit(GitBookingPaptientdatastate());
+    }).catchError((error) {
+      print(error.toString());
+    });
   }
 
   Regoster1({
@@ -129,7 +188,6 @@ class CubitPatientHosptial extends Cubit<PatientStates> {
         'blood': blood,
         'photo': photo != null ? await MultipartFile.fromFile(photo.path, contentType: MediaType("media", "jpeg")) : null,
       });
-
       var dio = Dio();
       dio.options.contentType = Headers.multipartFormDataContentType;
 // Create Dio instance
@@ -148,44 +206,6 @@ class CubitPatientHosptial extends Cubit<PatientStates> {
     }
   }
 
- //  Regoster2({
- //  int? age,
- //  required String firstName,
- //  required String gender,
- //  required String lastName,
- //  required String phone,
- //  required String address,
- //  required String blood,
- // // required  photo,
- //  }) async {
- //  try {
- //  emit(PatientSignUPLoading());
- //  Map<String, dynamic> userData = {
- //  'firstname': firstName,
- //  'lastname': lastName,
- //  'gender': gender,
- //  'user': Constants.userId,
- //  'age': age,
- //  'phone_number': phone,
- //  'address': address,
- //  'blood': blood,
- //    //'photo': photo != null ? await MultipartFile.fromFile(photo.path) : null,
- //  };
- //  var dio = Dio(); // Create Dio instance
- //  dio.options.headers["Authorization"] = "Bearer ${Constants.access}";
- //  print('###################${dio.options.headers["Authorization"]}');
- //  Response response = await dio.post(
- //  'https://fodail2011.pythonanywhere.com/api/register/step2/',
- //  // Make sure this is the correct endpoint
- //  data: userData,
- //  );
- //  print(response.data);
- //  emit(PatientSignUPSuccess());
- //  } on DioException catch (e) {
- //  print('Error: ${e.response?.statusCode} ${e.message}');
- //  emit(PatientSignUPFailure(errorMassage: e.toString()));
- //  }
- //  }
 
   IconData suffix = Icons.visibility_outlined;
   bool isPassword = false;
@@ -212,6 +232,35 @@ class CubitPatientHosptial extends Cubit<PatientStates> {
       print(error.toString());
     });
   }
+  Map<String, dynamic> doctor = {};
+
+  void gitdoctordata() {
+    emit(doctorlodingstate());
+    Diohelper.getdata(
+      url:
+          'https://fodail2011.pythonanywhere.com/api/doctor/${Constants.DoctorId}',
+    ).then((value) {
+      doctor = value.data;
+      print('@@@@@@@@@@@@@@@@@@@@@@4${doctor['id']}');
+      emit(GitDoctordatastate());
+    }).catchError((error) {
+      print(error.toString());
+    });
+  }
+  Map<String, dynamic> doctor_patientView = {};
+  void gitdoctordataPatientview(int docId) {
+    emit(doctorlodingstate());
+    Diohelper.getdata(
+      url:
+          'https://fodail2011.pythonanywhere.com/api/doctor/$docId',
+    ).then((value) {
+      doctor_patientView = value.data;
+      print('@@@@@@@@@@@@@@@@@@@@@@4${doctor_patientView['id']}');
+      emit(GitDoctordatastate());
+    }).catchError((error) {
+      print(error.toString());
+    });
+  }
 
 
   List<dynamic> doctrolist = [];
@@ -221,7 +270,7 @@ class CubitPatientHosptial extends Cubit<PatientStates> {
       url: 'https://fodail2011.pythonanywhere.com/api/doctors/',
     ).then((value) {
       doctrolist = value.data;
-      // print('###################################${doctrolist}');
+       print('#################youuutorder##################${doctrolist}');
       emit(GitDoctrodatastate());
     }).catchError((error) {
       print(error.toString());
@@ -247,7 +296,7 @@ class CubitPatientHosptial extends Cubit<PatientStates> {
       url: 'https://fodail2011.pythonanywhere.com/api/specialties/$SpDepid/doctors/',
     ).then((value) {
       departmentslist = value.data;
-      // print('###################################${departmentslist}');
+       print('###################################${departmentslist}');
       emit(GetDepatmentsstate());
     }).catchError((error) {
       print(error.toString());
@@ -309,7 +358,7 @@ class CubitPatientHosptial extends Cubit<PatientStates> {
     ).then((value) {
       Timeslot = value.data;
       timelist= Timeslot['time_slots'];
-      print('@@@@@@@@@@@@@@@@@@@@@@4${Timeslot['DAY']}');
+      print('@@@@@@@@@@@@@@@@@@@@@@4${Timeslot['day']}');
       emit(GitDoctorTimestate());
     }).catchError((error) {
       print(error.toString());

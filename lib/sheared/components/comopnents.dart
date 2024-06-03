@@ -1,12 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:hosptial_project/patient/patient_ui/resrvation/SelectTime.dart';
 
 import '../../class/cubit/patient_cubit.dart';
-import '../../patient/patient_ui/home/find_doctor.dart';
-import '../../patient/patient_ui/resrvation/doctorTimeslot.dart';
-import '../../patient/patient_ui/resrvation/pocking.dart';
+
+import '../../users/doctor_ui/doctor_profile/docprofile_patientview.dart';
+import '../../users/patient_ui/home/find_doctor.dart';
+import '../../users/patient_ui/resrvation/Avilable_Time.dart';
+import '../../users/patient_ui/resrvation/doctorTimeslot.dart';
+import '../../users/patient_ui/resrvation/pocking.dart';
 import '../constant/constant.dart';
 //you need to do reasable component of 4 icons
 Color defualtcolelr=HexColor('3D85C6');
@@ -61,18 +63,24 @@ Widget DoctorItem(doctordata,context,index)=> Padding(
               children: [
                 Padding(
                   padding: const EdgeInsets.only(left:20.0,top:20,right:20,bottom:15),
-                  child: Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10)
-                      ),
-                      clipBehavior: Clip.antiAliasWithSaveLayer,
-                      height: 100,
-                      width: 100,
-                      child:
-                         Image.network(
-                            '${doctordata['photo']}'
-                           ,fit:BoxFit.cover, ),
-                      )),
+                  child: InkWell(onTap: (){
+                    int DOCid=doctordata['id'];
+                    print(DOCid);
+                    navigator(Doctor_profile_patientView(docId:DOCid,), context);
+                  },
+                    child: Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10)
+                        ),
+                        clipBehavior: Clip.antiAliasWithSaveLayer,
+                        height: 100,
+                        width: 100,
+                        child:
+                           Image.network(
+                              '${doctordata['photo']}'
+                             ,fit:BoxFit.cover, ),
+                        ),
+                  )),
 
               ],
             ),
@@ -101,7 +109,9 @@ Widget DoctorItem(doctordata,context,index)=> Padding(
                               height: 25,
                               value: 'OnlyChoice',
                               child: InkWell(onTap: (){
-                                ///////////////////////////doctorprofile
+                                int DOCid=doctordata['id'];
+                                print(DOCid);
+                                navigator(Doctor_profile_patientView(docId:DOCid,), context);
                               },
                                   child: Text('Profile')),
                             ),
@@ -117,7 +127,7 @@ Widget DoctorItem(doctordata,context,index)=> Padding(
                 ),
                 ),
                 Text(
-                  '$index',
+                  '${doctordata['id']}',
                   style: TextStyle(
                       color:Colors.grey[600]
                   ),
@@ -550,6 +560,13 @@ Widget TimeSlotItem(time,index,context)=>Padding(
     ),
   ),
 );
+
+Widget BookingPatientItem()=>Container(height: 40,width: 70,
+  decoration: BoxDecoration(
+      color: defualtcolelr,
+      borderRadius: BorderRadius.circular(10)
+  ),
+  child: Center(child: Text('examine',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 15),)),);
 
 
 

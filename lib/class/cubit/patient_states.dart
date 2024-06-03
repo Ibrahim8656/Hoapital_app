@@ -2,6 +2,8 @@ abstract class PatientStates{}
 class patientInitial extends PatientStates {}
 class PatientSignInLoading extends PatientStates {}
 class PatientSignInSuccess  extends PatientStates {}
+class BOkingpatientlodingstate  extends PatientStates {}
+class GitBookingPaptientdatastate  extends PatientStates {}
 
 class Register1Succss  extends PatientStates {
   final String accss ;
@@ -18,6 +20,7 @@ class PatientSignInFailure extends PatientStates {
   class PatientSignUPLoading extends PatientStates {}
   class PatientSignUPSuccess  extends PatientStates {}
   class Ontap  extends PatientStates {}
+  class docOntap  extends PatientStates {}
   class PatientSignUPFailure extends PatientStates {
     final String errorMassage;
 
@@ -41,6 +44,8 @@ class ErrorGetdoctorData  extends PatientStates {
 }
 class SuccsseGetdoctorData extends PatientStates {}
 class Caangeiconpassword  extends PatientStates {}
+class doctorlodingstate  extends PatientStates {}
+class GitDoctordatastate  extends PatientStates {}
 
 class GitPaptientdatastate extends PatientStates {}
 class patientlodingstate extends PatientStates {}
@@ -58,6 +63,27 @@ class BookingFailure  extends PatientStates {
 
   BookingFailure(this.error);
 }
+
+class DoctorInitial extends PatientStates{}
+class DoctorSignInLoading extends PatientStates {}
+class DoctorSignInSuccess  extends PatientStates {
+  final  data ;
+  DoctorSignInSuccess({required this.data});
+}
+class DoctorSignInFailure extends PatientStates {
+  final String errorMassage;
+  DoctorSignInFailure({required this.errorMassage});}
+class ChangeBottomNabBarState extends PatientStates {}
+class ChangeVisiableState extends  PatientStates {}
+class AddNewNoteState extends  PatientStates {}
+class AddDignoseState extends  PatientStates {}
+class UpdateListState extends  PatientStates {}
+class NoteInitialState extends PatientStates{}
+class MediaclInitialState extends PatientStates{}
+class AddMedicalState extends PatientStates{}
+class PatientInitialState extends PatientStates{}
+class PatientUpdateState extends PatientStates{}
+//
 
 
 
