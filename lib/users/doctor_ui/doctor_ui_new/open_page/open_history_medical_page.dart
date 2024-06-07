@@ -13,7 +13,7 @@ class DetailsHistoryMedical extends StatelessWidget {
   Widget build(BuildContext context) {
     return FutureBuilder(
       future: () {
-        CubitDoctorHosptial.get(context).GetSpecific(patien['id']);
+        CubitDoctorHosptial.get(context).GetSpecific(patien);
       }(),
       builder: (context, snapshot) {
         return BlocConsumer<CubitDoctorHosptial, DoctorStates>(

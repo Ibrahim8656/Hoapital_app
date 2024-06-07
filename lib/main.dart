@@ -5,18 +5,19 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:hosptial_project/class/bloc_observer.dart';
 import 'package:hosptial_project/class/cubit/diohelper.dart';
-import 'package:hosptial_project/class/cubit/doctor_cubit.dart';
 import 'package:hosptial_project/class/cubit/patient_cubit.dart';
 import 'package:hosptial_project/class/cubit/patient_states.dart';
 import 'package:hosptial_project/homelayout/home_layout.dart';
 import 'package:hosptial_project/homelayout/splash-page.dart';
+
 import 'package:hosptial_project/sheared/components/comopnents.dart';
 import 'package:hosptial_project/sheared/components/styele.dart';
+import 'package:hosptial_project/sheared/constant/constant.dart';
 import 'package:hosptial_project/sheared/shearedpref/shearedprefrances.dart';
 import 'package:hosptial_project/test.dart';
 import 'package:hosptial_project/users/doctor_ui/dochome/addmedicalrecord/addmedicalrecord.dart';
-import 'package:hosptial_project/users/doctor_ui/doctor_ui_new/Sign_in_doctor.dart';
-import 'package:hosptial_project/users/doctor_ui/doctor_ui_new/home/main_doctor_home.dart';
+import 'class/cubit/doctor_cubit.dart';
+import 'class/cubit/pharmacist_cubit.dart';
 import 'class/helper_dio.dart';
 import 'homelayout/firstLayout.dart';
 Future<void> main() async {
@@ -29,7 +30,6 @@ Future<void> main() async {
   runApp(const MyApp());
 
 }
-// patient
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
   @override
@@ -47,40 +47,32 @@ class MyApp extends StatelessWidget {
     },
     builder: (BuildContext context, state) {
       var cubit = CubitPatientHosptial.get(context); // Usi
-      return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-            bottomNavigationBarTheme: BottomNavigationBarThemeData(
-                backgroundColor: defualtcolelr,
-                selectedItemColor: Colors.white
-            ),
-            appBarTheme: AppBarTheme(
-                titleTextStyle: TextStyle(color: Colors.white,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold),
-                color: HexColor('3D85C6')
-            )
+      return MultiBlocProvider(
+        providers: [
+          BlocProvider(
+          create: (BuildContext context)=>CubitDoctorHosptial(),),
+          BlocProvider(
+          create: (BuildContext context) =>CubitPharmacistHosptial(),),
+        ],
+        child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          theme: ThemeData(
+              bottomNavigationBarTheme: BottomNavigationBarThemeData(
+                  backgroundColor: defualtcolelr,
+                  selectedItemColor: Colors.white
+              ),
+              appBarTheme: AppBarTheme(
+                  titleTextStyle: TextStyle(color: Colors.white,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold),
+                  color: HexColor('3D85C6')
+              )
+          ),
+          home: Firstlayout(),
         ),
-        home:addmedical_record(),
       );
     }
       )
     );
   }
 }
-// doctor
-/*class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-  @override
-  Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => CubitDoctorHosptial(),
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(appBarTheme: AppBarTheme(color: HexColor('3D85C6'))),
-        home: DoctorSignIn(),
-      ),
-    );
-  }
-}*/
-

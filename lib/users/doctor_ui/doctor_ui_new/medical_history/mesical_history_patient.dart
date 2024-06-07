@@ -8,7 +8,7 @@ import 'new_add_history.dart';
 import '../rooms_.dart';
 
 class MedicalHistory extends StatelessWidget {
-  const MedicalHistory({this.patient, super.key});
+  const MedicalHistory({required this.patient, super.key});
   final patient;
 
   @override
@@ -16,7 +16,7 @@ class MedicalHistory extends StatelessWidget {
     return FutureBuilder(
       future: () {
         CubitDoctorHosptial.get(context)
-            .GetHistoryMedical(patient['patient_id']);
+            .GetHistoryMedical(patient);
       }(),
       builder: (context, snapshot) {
         return BlocConsumer<CubitDoctorHosptial, DoctorStates>(
@@ -73,7 +73,7 @@ class MedicalHistory extends StatelessWidget {
               ),
               body: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: state is InitialHistory
+                child: state is GetPatientState
                     ? const Center(
                         child: SizedBox(
                           width: 50,

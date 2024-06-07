@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hosptial_project/sheared/components/comopnents.dart';
 
 import '../../../../class/cubit/doctor_cubit.dart';
 import '../../../../class/cubit/doctor_states.dart';
@@ -22,12 +23,13 @@ class HomeDoctor extends StatelessWidget {
             return Scaffold(
               appBar: AppBar(
                 leading: IconButton(
-                  onPressed: () {},
-                  icon: const Icon(Icons.arrow_back_ios_new_sharp,
-                      color: Colors.white),
+                  icon: Icon(Icons.arrow_back_ios, size: 20, color: defualtcolelr),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
                 ),
                 title: const Text(
-                  "welcome back",
+                  "           welcome back",
                   style: TextStyle(
                       color: Colors.white,
                       fontSize: 20,
@@ -52,29 +54,19 @@ class HomeDoctor extends StatelessWidget {
                                 0.0, 5.0, 0.0, 0.0),
                             child: Column(
                               children: [
-                                Container(
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(10),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.grey.withOpacity(0.5),
-                                        spreadRadius: 1,
-                                        blurRadius: 1,
-                                        // changes position of shadow
-                                      ),
-                                    ],
-                                  ),
-                                  width: double.infinity,
-                                  height: 150,
-                                  child: InkWell(
-                                    onTap: () {},
-                                    child: Column(
-                                      children: [
-                                        Container(
-                                          color: const Color(0xff3D85C6),
+                                InkWell(
+                                  onTap: () {},
+                                  child: Column(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                                        child: Container(
+                                         decoration: BoxDecoration(
+                                           color: const Color(0xff3D85C6),
+                                           borderRadius: BorderRadius.circular(10)
+                                         ),
                                           width: double.infinity,
-                                          height: 30,
+                                          height: 55,
                                           child: const Center(
                                             child: Text(
                                               "Current Patient",
@@ -85,37 +77,38 @@ class HomeDoctor extends StatelessWidget {
                                             ),
                                           ),
                                         ),
-                                        // current patient
-                                        Padding(
-                                          padding: const EdgeInsetsDirectional
-                                              .fromSTEB(0.0, 5.0, 0.0, 5.0),
-                                          child: patientitem.isNotEmpty
-                                              ? PatientUsertime(
-                                                  patientitem[0], context)
-                                              : const Padding(
-                                                  padding: EdgeInsetsDirectional
-                                                      .fromSTEB(10, 40, 10, 40),
-                                                  child: Text(
-                                                    'No current patient',
-                                                    style: TextStyle(
-                                                        fontSize: 15,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        color: Colors.black),
-                                                  ),
+                                      ),
+                                      SizedBox(height: 10,),
+                                      // current patient
+                                      Padding(
+                                        padding: const EdgeInsetsDirectional
+                                            .fromSTEB(0.0, 5.0, 0.0, 5.0),
+                                        child: patientitem.isNotEmpty
+                                            ? PatientUsertime(
+                                                patientitem[0], context)
+                                            : const Padding(
+                                                padding: EdgeInsetsDirectional
+                                                    .fromSTEB(10, 40, 10, 40),
+                                                child: Text(
+                                                  'No current patient',
+                                                  style: TextStyle(
+                                                      fontSize: 15,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: Colors.black),
                                                 ),
-                                        ),
-                                      ],
-                                    ),
+                                              ),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ],
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsetsDirectional.fromSTEB(
-                                0.0, 15.0, 0.0, 0.0),
-                            child: Expanded(
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsetsDirectional.fromSTEB(
+                                  0.0, 15.0, 0.0, 0.0),
                               child: Container(
                                 decoration: BoxDecoration(
                                   color: Colors.white,
@@ -135,19 +128,25 @@ class HomeDoctor extends StatelessWidget {
                                   onTap: () {},
                                   child: Column(
                                     children: [
-                                      Container(
-                                          color: const Color(0xff3D85C6),
-                                          width: double.infinity,
-                                          height: 30,
-                                          child: const Center(
-                                            child: Text(
-                                              " ALL Patient",
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 20,
-                                                  fontWeight: FontWeight.w700),
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: 4.0,vertical: 10),
+                                        child: Container(
+                                            decoration: BoxDecoration(
+                                                color: const Color(0xff3D85C6),
+                                                borderRadius: BorderRadius.circular(10)
                                             ),
-                                          )),
+                                            width: double.infinity,
+                                            height: 55,
+                                            child: const Center(
+                                              child: Text(
+                                                " ALL Patient",
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 20,
+                                                    fontWeight: FontWeight.w700),
+                                              ),
+                                            )),
+                                      ),
                                       patientitem.isNotEmpty
                                           ? Expanded(
                                               child: ListView.separated(

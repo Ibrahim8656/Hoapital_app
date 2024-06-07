@@ -189,8 +189,9 @@ class DoctorSignIn extends StatelessWidget {
                                     onPressed: () {
                                       if (formKey.currentState!.validate()) {
                                         CubitDoctorHosptial.get(context)
-                                            .SignInAPI(emailController.text,
-                                                passwordController.text);
+                                            .SignInAPI(
+                                            email:emailController.text,
+                                                password:passwordController.text);
                                       }
                                     },
                                     child: const Text(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hosptial_project/class/cubit/doctor_cubit.dart';
 import 'package:hosptial_project/class/cubit/doctor_states.dart';
+import 'package:hosptial_project/sheared/components/comopnents.dart';
 
 class MainHomeDoctor extends StatelessWidget {
   const MainHomeDoctor({super.key});
@@ -12,9 +13,9 @@ class MainHomeDoctor extends StatelessWidget {
         CubitDoctorHosptial cubit = CubitDoctorHosptial.get(context);
         return Scaffold(
           bottomNavigationBar: BottomNavigationBar(
-            backgroundColor: Colors.white,
-            selectedItemColor: const Color(0xff3D85C6),
-            unselectedItemColor: Colors.black,
+            backgroundColor: defualtcolelr,
+            selectedItemColor: Colors.white,
+            unselectedItemColor: Colors.white60,
             currentIndex: CubitDoctorHosptial.get(context).currentIndex,
             onTap: (index) {
               CubitDoctorHosptial.get(context).ChangeIndex(index);

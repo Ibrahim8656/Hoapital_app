@@ -1,6 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hosptial_project/sheared/constant/constant.dart';
+import 'package:hosptial_project/users/doctor_ui/doctor_profile/profile_of_doctor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../sheared/shared/components/components.dart';
 import '../../sheared/shared/shared_prefrance.dart';
@@ -8,12 +10,14 @@ import '../../users/doctor_ui/doctor_ui_new/home/home_doctor.dart';
 import '../../users/doctor_ui/doctor_ui_new/home/main_doctor_home.dart';
 import '../../users/doctor_ui/doctor_ui_new/profile_of_doctor.dart';
 import 'doctor_states.dart';
+import 'models/doctor_login_respone.dart';
+import 'models/medical_history_response.dart';
 
 class CubitDoctorHosptial extends Cubit<DoctorStates> {
   CubitDoctorHosptial() : super(DoctorInitial());
   static CubitDoctorHosptial get(context) => BlocProvider.of(context);
   // Sign In for doctor
-  SignInAPI(String email, String password) async {
+  SignInAPI({required String email, required String password}) async {
     try {
       emit(DoctorSignInLoading());
       final response = await Dio().post(
@@ -24,8 +28,9 @@ class CubitDoctorHosptial extends Cubit<DoctorStates> {
         },
       );
       print(response.data);
-      var userId = response.data['doctor_id'];
-      await saveUserId(userId);
+      final DoctorLoginResponse logindoctorlist = DoctorLoginResponse.fromJson(response.data);
+      Constants.DoctorId = logindoctorlist.doctor_id;
+      await saveUserId(Constants.DoctorId);
       emit(DoctorSignInSuccess());
     } on DioException catch (e) {
       emit(DoctorSignInFailure(errorMassage: e.response!.data['error']));
@@ -41,7 +46,7 @@ class CubitDoctorHosptial extends Cubit<DoctorStates> {
   ];
   final screens = [
     const HomeDoctor(),
-    const ProfileDoctor(),
+    const Doctor_profile(),
   ];
   void ChangeIndex(int index) {
     currentIndex = index;
@@ -63,10 +68,10 @@ class CubitDoctorHosptial extends Cubit<DoctorStates> {
   void getdata() async {
     emit(InitialPatientState());
 
-    if (_isDataLoaded) {
-      emit(GetPatientState());
-      return;
-    }
+    // if (_isDataLoaded) {
+    //   emit(GetPatientState());
+    //   return;
+    // }
 
     DateTime now = DateTime.now();
     final dayapi = getDayOfWeek(now.weekday);
@@ -78,8 +83,8 @@ class CubitDoctorHosptial extends Cubit<DoctorStates> {
         .get(
             "https://fodail2011.pythonanywhere.com/api/Patientlsit/${userId}/${dayapi}/")
         .then((value) {
-      patientt = value.data;
-      patient = patientt['time_slots'];
+      //patient = value.data;
+      patient = value.data['time_slots'];
 
       _isDataLoaded = true;
       emit(GetPatientState());
@@ -263,7 +268,7 @@ class CubitDoctorHosptial extends Cubit<DoctorStates> {
   }
 
 // the list data of history medical
-  List<dynamic> mediaclhistory = [];
+  List<MedicalhistoryResponse> mediaclhistory = [];
   void GetHistoryMedical(user) async {
     emit(InitialHistory());
 //  "https://fodail2011.pythonanywhere.com/api/patients/3/medical_records/"
@@ -272,7 +277,9 @@ class CubitDoctorHosptial extends Cubit<DoctorStates> {
         .get(
             "https://fodail2011.pythonanywhere.com/api/patients/${user}/medical_records/")
         .then((value) {
-      mediaclhistory = value.data;
+      for(var item in value.data){
+        mediaclhistory.add(MedicalhistoryResponse.fromJson(item));
+      };
       print("the data =>$mediaclhistory");
       emit(GetPatientState());
     }).catchError((error) {

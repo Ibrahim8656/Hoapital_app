@@ -108,6 +108,8 @@ class SelectTime extends StatelessWidget {
                     children: [
                       SizedBox(width: 25,),
                       Dayitemreservatio('Friday',context,doctor),
+                      SizedBox(width: 25,),
+                      Dayitemreservatio('Saturday',context,doctor),
                       SizedBox(width: 20,),
                       Dayitemreservatio('Sunday  ',context,doctor),
                       SizedBox(width: 20,),

@@ -3,11 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hosptial_project/users/doctor_ui/doctor_profile/profile_of_doctor.dart';
 
+import '../../../class/cubit/doctor_cubit.dart';
+import '../../../class/cubit/doctor_states.dart';
 import '../../../class/cubit/patient_cubit.dart';
-import '../../../class/cubit/patient_states.dart';
 import '../../../homelayout/home_layout.dart';
 import '../../../sheared/components/comopnents.dart';
 import '../doc_layout.dart';
+import '../doctor_ui_new/home/home_doctor.dart';
+import '../doctor_ui_new/home/main_doctor_home.dart';
 
 class DocSignIn extends StatefulWidget {
   const DocSignIn({super.key});
@@ -31,9 +34,9 @@ class _SignIn extends State<DocSignIn> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (BuildContext context) => CubitPatientHosptial(),
-      child: BlocConsumer<CubitPatientHosptial, PatientStates>(
-        listener: (BuildContext context, Object? state) {
+      create: (BuildContext context) => CubitDoctorHosptial(),
+      child: BlocConsumer<CubitDoctorHosptial, DoctorStates>(
+        listener: (BuildContext context,  state) {
           if (state is DoctorSignInSuccess) {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               content: Text('data possing'),
@@ -41,7 +44,7 @@ class _SignIn extends State<DocSignIn> {
               backgroundColor: Colors.green.shade300,
             ));
             Navigator.push(
-                context, MaterialPageRoute(builder: (context) => docHomelayout()));
+                context, MaterialPageRoute(builder: (context) => MainHomeDoctor()));
           } else if (state is DoctorSignInFailure) {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               content: Text('Please check the entered data'),//////////////////
@@ -163,9 +166,9 @@ class _SignIn extends State<DocSignIn> {
                                       builder: (context) => Defultbotom(
                                           onPressed: () {
                                             if (formky.currentState!.validate()){
-                                              CubitPatientHosptial.get(context).DoctorLogin(
-                                                password: passwordController.text,
-                                                username: UsernameController.text,
+                                              CubitDoctorHosptial.get(context).SignInAPI(
+                                               password : passwordController.text,
+                                                email: UsernameController.text,
                                               );
                                             }
                                             else{

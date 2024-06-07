@@ -46,7 +46,7 @@ class CubitPatientHosptial extends Cubit<PatientStates> {
     currentIndex = index;
     emit(Ontap());
   } List<Widget> docScreens = [
-    doc_home(),
+    //doc_home(),
     Doctor_profile(),
   ];
 
@@ -105,7 +105,7 @@ class CubitPatientHosptial extends Cubit<PatientStates> {
         data: userData,
       );
       final DoctorLoginResponse logindoctorlist = DoctorLoginResponse.fromJson(response.data);
-      Constants.DoctorId = response.data['doctor_id'];
+      Constants.DoctorId = logindoctorlist.doctor_id;
       print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%${response.data}');
       emit(DoctorSignInSuccess(data: response.data));
     } on DioException catch (e) {
@@ -227,6 +227,20 @@ class CubitPatientHosptial extends Cubit<PatientStates> {
     ).then((value) {
       patient = value.data;
       print('@@@@@@@@@@@@@@@@@@@@@@4${patient['id']}');
+      emit(GitPaptientdatastate());
+    }).catchError((error) {
+      print(error.toString());
+    });
+  }Map<String, dynamic> patientfromdoc = {};
+
+  void gitpatientdatafromdoc(int id) {
+    emit(patientlodingstate());
+    Diohelper.getdata(
+      url:
+          'https://fodail2011.pythonanywhere.com/api/patient/$id',
+    ).then((value) {
+      patientfromdoc = value.data;
+      print('@@@@@@@@@@@@@@@77777@@@@@@@4${patientfromdoc}');
       emit(GitPaptientdatastate());
     }).catchError((error) {
       print(error.toString());

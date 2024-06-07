@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:hosptial_project/sheared/constant/constant.dart';
+import '../../../class/cubit/models/medical_history_response.dart';
+import '../../../class/cubit/patient_cubit.dart';
 import '../../../users/doctor_ui/doctor_ui_new/Profile_patient.dart';
 import '../../../users/doctor_ui/doctor_ui_new/booking_room.dart';
 import '../../../users/doctor_ui/doctor_ui_new/open_page/open_history_medical_page.dart';
@@ -26,11 +29,17 @@ Widget PatientUsertime(patient, context) => Column(
               height: 100,
               child: InkWell(
                 onTap: () {
+
+                var patientId=patient['patient_id'];
+                //Constants.tekrar=patientId;
+                   print(patientId);
+                CubitPatientHosptial.get(context).gitpatientdatafromdoc(patientId);
                   Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (context) => ProfilePatient(
-                                patient: patient,
+
+                              patientID: patientId,
                               )));
                 },
                 child: Column(
@@ -361,7 +370,7 @@ Widget profilepatien(information) => Expanded(
       ),
     );
 // the list of all medicalhistory
-Widget MediaclH(history, context) => Padding(
+Widget MediaclH(MedicalhistoryResponse history, context) => Padding(
       padding: const EdgeInsets.symmetric(horizontal: 5.0),
       child: InkWell(
         onTap: () {
@@ -369,7 +378,7 @@ Widget MediaclH(history, context) => Padding(
               context,
               MaterialPageRoute(
                   builder: (context) => DetailsHistoryMedical(
-                        patien: history,
+                        patien: history.patientId,
                       )));
         },
         child: Container(
@@ -419,7 +428,7 @@ Widget MediaclH(history, context) => Padding(
                             ),
                             const SizedBox(height: 3),
                             Text(
-                              '${history['date']}',
+                              history.date,
                               style: const TextStyle(
                                   fontSize: 10, color: Colors.white),
                             ),
@@ -442,7 +451,7 @@ Widget MediaclH(history, context) => Padding(
                         padding: const EdgeInsets.only(top: 20.0),
                         child: Text(
                           // make name of doctor here
-                          '${history['record_name']}',
+                          history.recordName,
                           style: const TextStyle(
                               color: Colors.black,
                               fontWeight: FontWeight.bold,
@@ -450,7 +459,7 @@ Widget MediaclH(history, context) => Padding(
                         ),
                       ),
                       Text(
-                        'Dr ${history['doctor_name']}',
+                        'Dr ${history.doctorName}',
                         style: TextStyle(color: Colors.grey[600]),
                       ),
                     ],

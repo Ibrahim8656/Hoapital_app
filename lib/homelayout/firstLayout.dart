@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hosptial_project/sheared/components/comopnents.dart';
+import 'package:hosptial_project/users/doctor_ui/doctor_ui_new/Sign_in_doctor.dart';
 import 'package:lottie/lottie.dart';
 import '../users/doctor_ui/open_page/sign_in_doctor.dart';
 import '../users/patient_ui/auth_pages/sign_in.dart';
+import '../users/pharmacist_ui/main_pharmacist.dart';
 
  // Make sure this import path is correct
 
@@ -61,6 +63,16 @@ class Firstlayout extends StatelessWidget {
               height: 60,
               width: 200,
               text: 'Login as a doctor',
+            ),
+            SizedBox(height: 30),
+            defultbotom(
+              color: defualtcolelr,
+              onPressed: () {
+                navigator(MainHomePharmacist(), context);
+              },
+              height: 60,
+              width: 200,
+              text: 'Login as a pharmacist',
             ),
           ],
         ),
