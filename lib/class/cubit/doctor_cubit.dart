@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,6 +19,14 @@ import 'models/medical_history_response.dart';
 class CubitDoctorHosptial extends Cubit<DoctorStates> {
   CubitDoctorHosptial() : super(DoctorInitial());
   static CubitDoctorHosptial get(context) => BlocProvider.of(context);
+
+  Future<bool> _cacheDoctorData(DoctorLoginResponse doctor) async {
+    return await CacheHelper.saveData(
+      key: 'doctorData',
+      value: json.encode(doctor.toJson()),
+    );
+  }
+
   // Sign In for doctor
   SignInAPI({required String email, required String password}) async {
     try {
@@ -33,7 +43,9 @@ class CubitDoctorHosptial extends Cubit<DoctorStates> {
           DoctorLoginResponse.fromJson(response.data);
       Constants.DoctorId = logindoctorlist.doctor_id;
       // await saveUserId(Constants.DoctorId);
+      Constants.doctor = logindoctorlist;
       await CacheHelper.saveData(key: 'docID', value: Constants.DoctorId);
+      await _cacheDoctorData(logindoctorlist);
       emit(DoctorSignInSuccess());
     } on DioException catch (e) {
       emit(DoctorSignInFailure(errorMassage: e.response!.data['error']));
