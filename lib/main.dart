@@ -16,63 +16,72 @@ import 'package:hosptial_project/sheared/constant/constant.dart';
 import 'package:hosptial_project/sheared/shearedpref/shearedprefrances.dart';
 import 'package:hosptial_project/test.dart';
 import 'package:hosptial_project/users/doctor_ui/dochome/addmedicalrecord/addmedicalrecord.dart';
+import 'package:hosptial_project/users/doctor_ui/doctor_ui_new/home/main_doctor_home.dart';
 import 'class/cubit/doctor_cubit.dart';
 import 'class/cubit/pharmacist_cubit.dart';
 import 'class/helper_dio.dart';
 import 'homelayout/firstLayout.dart';
+
 Future<void> main() async {
   Bloc.observer = MyBlocObserver();
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: ".env");
   await CacheHelper.init();
-  bool? onboardingComplete = CacheHelper.getData(key: 'onboardingCompletee') as bool?;
+  bool? onboardingComplete =
+      CacheHelper.getData(key: 'onboardingCompletee') as bool?;
+  int? docId = CacheHelper.getData(key: 'docID') as int?;
   Diohelper.init();
-  runApp(const MyApp());
-
+  runApp(MyApp(
+    docId: docId,
+  ));
 }
+
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final int? docId;
+
+  const MyApp({super.key, this.docId});
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (BuildContext context) => CubitPatientHosptial()..gitdoctorsdata()..GetDepatments()..GetDepatments(),
-      child:  BlocConsumer<CubitPatientHosptial, PatientStates>(
-        listener: (BuildContext context, state) {
-      // Listener can be used to handle actions like showing snackbar on errors, etc.
-      if (state is PatientSignInFailure) {
-        ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(state.errorMassage))
-        );
-      }
-    },
-    builder: (BuildContext context, state) {
-      var cubit = CubitPatientHosptial.get(context); // Usi
-      return MultiBlocProvider(
-        providers: [
-          BlocProvider(
-          create: (BuildContext context)=>CubitDoctorHosptial(),),
-          BlocProvider(
-          create: (BuildContext context) =>CubitPharmacistHosptial(),),
-        ],
-        child: MaterialApp(
-          debugShowCheckedModeBanner: false,
-          theme: ThemeData(
-              bottomNavigationBarTheme: BottomNavigationBarThemeData(
-                  backgroundColor: defualtcolelr,
-                  selectedItemColor: Colors.white
+        create: (BuildContext context) => CubitPatientHosptial()
+          ..gitdoctorsdata()
+          ..GetDepatments()
+          ..GetDepatments(),
+        child: BlocConsumer<CubitPatientHosptial, PatientStates>(
+            listener: (BuildContext context, state) {
+          // Listener can be used to handle actions like showing snackbar on errors, etc.
+          if (state is PatientSignInFailure) {
+            ScaffoldMessenger.of(context)
+                .showSnackBar(SnackBar(content: Text(state.errorMassage)));
+          }
+        }, builder: (BuildContext context, state) {
+          var cubit = CubitPatientHosptial.get(context); // Usi
+          return MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (BuildContext context) => CubitDoctorHosptial(),
               ),
-              appBarTheme: AppBarTheme(
-                  titleTextStyle: TextStyle(color: Colors.white,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold),
-                  color: HexColor('3D85C6')
-              )
-          ),
-          home: Firstlayout(),
-        ),
-      );
-    }
-      )
-    );
+              BlocProvider(
+                create: (BuildContext context) => CubitPharmacistHosptial(),
+              ),
+            ],
+            child: MaterialApp(
+              debugShowCheckedModeBanner: false,
+              theme: ThemeData(
+                  bottomNavigationBarTheme: BottomNavigationBarThemeData(
+                      backgroundColor: defualtcolelr,
+                      selectedItemColor: Colors.white),
+                  appBarTheme: AppBarTheme(
+                      titleTextStyle: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold),
+                      color: HexColor('3D85C6'))),
+              home:
+                  docId != null ? const MainHomeDoctor() : const Firstlayout(),
+            ),
+          );
+        }));
   }
 }
