@@ -6,7 +6,7 @@ class Constants {
   static String? imagepath;
   static late int userId;
   static int patientId = 1;
-  static late int DoctorId;
+  static  int? DoctorId;
   static late int timeId;
   static int? loginId;
   static String? doctors;

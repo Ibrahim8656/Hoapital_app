@@ -29,10 +29,10 @@ Future<void> main() async {
   await CacheHelper.init();
   bool? onboardingComplete =
       CacheHelper.getData(key: 'onboardingCompletee') as bool?;
-  int? docId = CacheHelper.getData(key: 'docID') as int?;
+  Constants.DoctorId = CacheHelper.getData(key: 'docID') as int?;
   Diohelper.init();
   runApp(MyApp(
-    docId: docId,
+    docId: Constants.DoctorId,
   ));
 }
 
