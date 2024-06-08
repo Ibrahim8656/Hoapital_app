@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hosptial_project/sheared/constant/constant.dart';
+import 'package:hosptial_project/sheared/shearedpref/shearedprefrances.dart';
 import 'package:hosptial_project/users/doctor_ui/doctor_profile/profile_of_doctor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../sheared/shared/components/components.dart';
@@ -28,13 +29,12 @@ class CubitDoctorHosptial extends Cubit<DoctorStates> {
         },
       );
       print(response.data);
-      final DoctorLoginResponse logindoctorlist = DoctorLoginResponse.fromJson(response.data);
+      final DoctorLoginResponse logindoctorlist =
+          DoctorLoginResponse.fromJson(response.data);
       Constants.DoctorId = logindoctorlist.doctor_id;
-      await saveUserId(Constants.DoctorId);
+      // await saveUserId(Constants.DoctorId);
+      await CacheHelper.saveData(key: 'docID', value: Constants.DoctorId);
       emit(DoctorSignInSuccess());
-      final SharedPreferences prif = await SharedPreferences.getInstance();
-      prif.setInt("docID",Constants.DoctorId );
-
     } on DioException catch (e) {
       emit(DoctorSignInFailure(errorMassage: e.response!.data['error']));
       return null;
@@ -84,7 +84,7 @@ class CubitDoctorHosptial extends Cubit<DoctorStates> {
     // https://fodail2011.pythonanywhere.com/api/Patientlsit/${userId}/${dayapi}/
     await Dio()
         .get(
-            "https://fodail2011.pythonanywhere.com/api/Patientlsit/${userId}/${dayapi}/")
+            "https://fodail2011.pythonanywhere.com/api/Patientlsit/$userId/$dayapi/")
         .then((value) {
       //patient = value.data;
       patient = value.data['time_slots'];
@@ -278,11 +278,11 @@ class CubitDoctorHosptial extends Cubit<DoctorStates> {
 
     await Dio()
         .get(
-            "https://fodail2011.pythonanywhere.com/api/patients/${user}/medical_records/")
+            "https://fodail2011.pythonanywhere.com/api/patients/$user/medical_records/")
         .then((value) {
-      for(var item in value.data){
+      for (var item in value.data) {
         mediaclhistory.add(MedicalhistoryResponse.fromJson(item));
-      };
+      }
       print("the data =>$mediaclhistory");
       emit(GetPatientState());
     }).catchError((error) {
