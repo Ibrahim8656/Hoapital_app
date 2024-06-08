@@ -32,6 +32,9 @@ class CubitDoctorHosptial extends Cubit<DoctorStates> {
       Constants.DoctorId = logindoctorlist.doctor_id;
       await saveUserId(Constants.DoctorId);
       emit(DoctorSignInSuccess());
+      final SharedPreferences prif = await SharedPreferences.getInstance();
+      prif.setInt("docID",Constants.DoctorId );
+
     } on DioException catch (e) {
       emit(DoctorSignInFailure(errorMassage: e.response!.data['error']));
       return null;

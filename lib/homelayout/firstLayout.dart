@@ -6,7 +6,7 @@ import 'package:lottie/lottie.dart';
 import '../users/doctor_ui/open_page/sign_in_doctor.dart';
 import '../users/patient_ui/auth_pages/sign_in.dart';
 import '../users/pharmacist_ui/Sign_in_pharmacist.dart';
-import '../users/pharmacist_ui/main_pharmacist.dart';
+
 
  // Make sure this import path is correct
 

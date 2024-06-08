@@ -56,86 +56,81 @@ class _MyPatientsState extends State<MyPatients> {
                   child: FutureBuilder<List<PatientModel>>(
                     future: allPatients.getAllPatients(),
                     builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
+                      if (snapshot.connectionState == ConnectionState.waiting && snapshot.data==null) {
                         return const Center(
                           child: CircularProgressIndicator(),
                         );
-                      } else {
-                        if (snapshot.hasError) {
-                          return Center(
-                            child: Text('Error: ${snapshot.error}'),
-                          );
-                        } else {
-                          List<PatientModel> patients = snapshot.data!
-                              .where((patient) =>
-                          patient.firstName
-                              .toLowerCase()
-                              .contains(searchText.toLowerCase()) ||
-                              patient.lastName
-                                  .toLowerCase()
-                                  .contains(searchText.toLowerCase()))
-                              .toList();
-
-                          return ListView.builder(
-                            itemCount: patients.length,
-                            itemBuilder: (context, index) {
-                              return Card(
-                                margin: const EdgeInsets.symmetric(
-                                    vertical: 8.0, horizontal: 16.0),
-                                child: ListTile(
-                                  leading: CircleAvatar(
-                                    backgroundImage:
-                                    NetworkImage(patients[index].image),
-                                    radius: 30,
-                                  ),
-                                  title: Text(
-                                    '${patients[index].firstName} ${patients[index].lastName}',
-                                    style:
-                                    const TextStyle(fontWeight: FontWeight.bold),
-                                  ),
-                                  subtitle: Row(
-                                    children: [
-                                      Text(
-                                        patients[index].gender,
-                                        style: const TextStyle(
-                                          color: Colors.blue,
-                                        ),
-                                      ),
-                                      const SizedBox(width: 10),
-                                      Text(
-                                        '${patients[index].age}',
-                                        style: const TextStyle(
-                                          color: Colors.blue,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  trailing: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        patients[index].id.toString(),
-                                        style: const TextStyle(
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                    ],
-                                  ),
-                                  onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => PatientDetails(
-                                          patient: patients[index],
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                ),
-                              );
-                            },
-                          );
-                        }
                       }
+                      List<PatientModel> patients = snapshot.data!;
+                      print(snapshot.data);
+                      // List<PatientModel> patients = snapshot.data!
+                      //     .where((patient) =>
+                      // patient.firstName
+                      //     .toLowerCase()
+                      //     .contains(searchText.toLowerCase()) ||
+                      //     patient.lastName
+                      //         .toLowerCase()
+                      //         .contains(searchText.toLowerCase()))
+                      //     .toList();
+
+                      return ListView.builder(
+                        itemCount: patients.length,
+                        itemBuilder: (context, index) {
+                          return Card(
+                            margin: const EdgeInsets.symmetric(
+                                vertical: 8.0, horizontal: 16.0),
+                            child: ListTile(
+                              leading: CircleAvatar(
+                                backgroundImage:
+                                NetworkImage(patients[index].image),
+                                radius: 30,
+                              ),
+                              title: Text(
+                                '${patients[index].firstName} ${patients[index].lastName}',
+                                style:
+                                const TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                              subtitle: Row(
+                                children: [
+                                  Text(
+                                    patients[index].gender,
+                                    style: const TextStyle(
+                                      color: Colors.blue,
+                                    ),
+                                  ),
+                                  const SizedBox(width: 10),
+                                  Text(
+                                    '${patients[index].age}',
+                                    style: const TextStyle(
+                                      color: Colors.blue,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              trailing: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    patients[index].id.toString(),
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ],
+                              ),
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => PatientDetails(
+                                      patient: patients[index],
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                          );
+                        },
+                      );
                     },
                   ),
                 ),
